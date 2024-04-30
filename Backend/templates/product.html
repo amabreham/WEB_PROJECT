@@ -1,0 +1,285 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .product-container{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: fit-content;
+            height: fit-content;
+        }
+        .product-container .card {
+
+        }
+        .hidden{
+            display: none;
+        }
+        .product-container .card img{
+            width: 100%;
+            height: 70%;
+        }
+        .view-detail-btn{
+            background-color: rgb(198, 216, 207);
+            border-radius: 5px;
+            color: black;
+            height: 70px;
+        }
+
+        /* Popup */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Pagination */
+        .pagination {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            bottom: 0;
+         }
+
+        .pagination button {
+            background-color: #27ae60;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+            padding: 10px;
+            border: none;
+        }
+
+        .pagination button.active {
+            background-color: #388ab9;
+        }
+    </style>
+</head>
+<body>
+    {%  include 'header.html' %}
+    <h1 style="text-align: center; color:#388ab9; text-decoration:underline; margin-top:80px">Available Drugs</h1>
+
+    <div class="product-container">
+        <div class="card" id="product"></div>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <button class="popup-close">&times;</button>
+                <img id="popup-image" src="" alt="Product Image" style="width: 200px; height: 200px; border-radius: 10px;">
+                <h2 id="popup-name" style="margin: 10px 0;"></h2>
+                <p id="popup-price" style="font-weight: bold;"></p>
+                <p id="popup-branch"></p>
+                <p id="popup-description"></p>
+            </div>
+        </div>
+    </div>
+    <div class="pagination" id="pagination"></div>
+
+    <script>
+        const productDiv = document.getElementById('product');
+        const popup = document.getElementById('popup');
+        const popupImage = document.getElementById('popup-image');
+        const popupName = document.getElementById('popup-name');
+        const popupPrice = document.getElementById('popup-price');
+        const popBranch=document.getElementById('popup-branch');
+        const popupDescription = document.getElementById('popup-description');
+        const popupClose = document.querySelector('.popup-close');
+        const paginationDiv = document.getElementById('pagination');
+
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+ function loadProducts() {
+            fetch('http://127.0.0.1:8000/L_medicine-list/') 
+                .then(response => response.json())
+                .then(data => {
+                    const numberOfProducts = data.length;
+                    const totalPages = Math.ceil(numberOfProducts / itemsPerPage);
+
+                    // Create the pagination buttons
+                    for (let i = 1; i <= totalPages; i++) {
+                        const button = document.createElement('button');
+                        button.textContent = i;
+                        button.addEventListener('click', function () {
+                            setCurrentPage(i);
+                        });
+                        paginationDiv.appendChild(button);
+                        paginationDiv.style.marginTop='500px';
+                     }
+                     // Display the data for the initial page
+                    displayData();
+                })
+                .catch(error => console.error(error));
+        }
+
+        function displayData() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            fetch('http://127.0.0.1:8000/J_medicine-list/')
+                .then(response => response.json())
+                .then(data => {
+                    const products = data.slice(startIndex, endIndex);
+
+                    // Clear the existing product elements
+                    productDiv.innerHTML = '';
+
+                    // Loop through the products and create HTML elements for each one
+                    products.forEach(product => {
+                        let time = product.Expired_Date;
+                         let date = Date.now();
+                         let expiredDate = time - date;
+                        console.log(expiredDate);
+
+                        if (product.Branch != 'Head Office') {
+                        // Create a div element for the product
+                        const productElement = document.createElement('div');
+                        productElement.classList.add('card');
+
+                        // Create an image element for the product
+                        const imageElement = document.createElement('img');
+                        imageElement.src = product.Image;
+                        imageElement.style.height = '200px';
+                        imageElement.style.width = '200px';
+                        imageElement.style.borderRadius = '10px';
+                        productElement.appendChild(imageElement);
+
+                        // Create a heading element for the product name
+                        const nameElement = document.createElement('h2');
+                        nameElement.textContent = product.Name;
+                        productElement.appendChild(nameElement);
+
+                        // Create a paragraph element for the product price
+                        const priceElement = document.createElement('p');
+                        priceElement.textContent = `Price: ${product.Unit_Price}`;
+                        priceElement.style.fontWeight = 'bold'; // Set paragraph font weight
+                        productElement.appendChild(priceElement);
+                        priceElement.classList.add('hidden');
+
+                        // Create a branc element for the product name
+                        const branchElement = document.createElement('h2');
+                        branchElement.textContent = product.Branch;
+                        branchElement.classList.add('hidden')
+                        productElement.appendChild(branchElement);
+
+                        // Create a paragraph element for the product description
+                        const descriptionElement = document.createElement('p');
+                        descriptionElement.textContent =`Description: ${product.Description}`;
+                        descriptionElement.classList.add('hidden');
+                        productElement.appendChild(descriptionElement);
+
+ // Create a button element for the product 
+                        const buttonElement = document.createElement('button');
+                        buttonElement.textContent =`View Detail:`;
+                        buttonElement.style.height = '40px';
+                        buttonElement.style.width = '100%';
+                        buttonElement.style.borderRadius = '10px';
+                        buttonElement.style.border = 'none'
+                        buttonElement.style.color = 'white'
+                        buttonElement.style.fontSize = '16px';
+                        buttonElement.style.cursor = 'pointer';
+                        buttonElement.style.backgroundColor = '#27ae60'; // Set button background color
+
+                        /* function to trigger the click event on the button to display or hide the product description */
+                        buttonElement.addEventListener('click', function () {
+                            popupImage.src = product.Image;
+                            popupName.textContent = product.Name;
+                            popupPrice.textContent = `Price: ${product.Unit_Price}`;
+                            popBranch.textContent = `branch: ${product.Branch}`;
+                            popupDescription.textContent = `Description: ${product.Description}`;
+
+                            popup.style.display = 'flex';
+                        });
+
+                        productElement.appendChild(buttonElement);
+                        // Append the product element to the product div
+                        productDiv.appendChild(productElement);
+                        productDiv.style.display = 'flex';
+            productDiv.style.width='100%';
+                        productDiv.style.justifyContent='start';
+            productDiv.style.height='200px';
+            productDiv.style.flexDirection = 'row';
+                        productDiv.style.gap = '20px';
+                        productDiv.style.marginLeft = '80px';
+                        productDiv.style.marginTop = '40px';
+            productDiv.style.flexWrap='wrap';
+                }});
+                })
+                .catch(error => console.error(error)); // Handle errors
+        }
+
+        function setCurrentPage(page) {
+            currentPage = page;
+                displayData();
+
+            // Update the active class on the pagination buttons
+            const buttons = paginationDiv.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                if (button.textContent == page) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        loadProducts();
+
+        // Close the popup when the user clicks outside of it
+        window.onclick = function (event) {
+            if (event.target == popup) {
+                popup.style.display = 'none';
+            }
+        }
+
+        // Close the popup when the user clicks the close button
+        popupClose.addEventListener('click', function () {
+            popup.style.display = 'none';
+        });
+    </script>
+
+</html>

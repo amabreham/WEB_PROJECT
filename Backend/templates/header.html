@@ -1,0 +1,324 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    :root {
+        --orange: rgb(240, 144, 35);
+        --green: #27ae60;
+        --black: #192a56;
+        --light-color: #666;
+        --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+        --red: #ff3838;
+    }
+    header {
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom:0;
+            background: #192a56;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: var(--box-shadow);
+            width: 100vw;
+            overflow-x: hidden;
+        }
+/*staart left header */
+header .left{
+    padding-left: 25px;
+    max-width: 25vw;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color:white;
+    text-decoration: none;
+    text-shadow: 0.5px 0.5px #3a3f38;
+}
+ 
+
+/*end left header */
+header .center{
+    max-width: 40vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+li{
+    list-style-type:none;
+    margin-left: 5px;
+}
+header .center ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+header .center ul li{
+    list-style-type:none;
+}
+header section ul li a{
+    padding: 3px;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+header section ul li a.active,header section ul li a:hover{
+    color: #27ae60;
+ }
+
+ 
+
+/*right header start */
+
+header .right{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 25px;
+    max-width: 35vw;
+}
+ i{
+    margin-left: 10px;
+    color:white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.hidden{
+    display: none;
+}
+.response-menu{
+    display: block;
+    position: fixed;
+    top: 60px;
+    z-index: 1000;
+    width: 100%;
+     background-color: rgb(16, 15, 15);
+
+
+}
+.profile {
+    cursor: pointer;
+    color: white;
+    margin: 3px;
+}
+
+.response-menu ul li{
+    list-style-type: none;
+    margin-bottom: 7px;
+
+}
+.response-menu ul li a{
+    color:white;
+    text-decoration: none;
+
+}
+ 
+#menu{
+    display: none;
+}
+
+@media screen and (max-width: 900px ) {
+    header{
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+
+        
+    }
+    header .left{
+    font-size: 20px;
+    padding-left: 0;
+     
+    }
+    header .center  {
+        display: flex;
+        flex-direction: column;
+         justify-content: flex-start;
+
+    }
+    header .center ul  {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+ 
+
+    }
+    header .center ul li a {
+    font-size: 16px;
+     }
+   
+    header .right{
+         right: 0;
+    }
+   
+
+    
+}
+@media screen and (max-width: 830px ) {
+    header{
+        width: 100vw;
+        overflow-x: hidden;
+         display: flex;
+        flex-direction:row;
+        justify-content: space-between;
+     }
+    header .left{
+    font-size: 22px;
+    width: 22%;
+    }
+    header .center  {
+    width: 3%;
+    display: none;
+    }
+    header .right{
+        width: 63%;
+    }
+    #menu{
+        display: block;
+    }
+
+    
+}
+.logout{
+    text-decoration: none;
+    border: 1px solid white;
+    padding: 1px 5px;
+    border-radius: 2.5px;
+     color: white;
+     background: red;
+
+}
+.logout:hover{
+    background: transparent;
+    color:red;
+}
+.login:hover{
+    background: transparent;
+    color:#27ae60
+
+}
+.login{
+    text-decoration: none;
+    border: 1px solid white;
+    background: #4CAF50;
+
+    border-radius: 2.5px;
+     color: white;
+     padding: 1px 8px;
+}
+
+    </style>
+<header>    
+    <a href="/" class="left"> Betselot Pharmacy</a>
+    <section class="center" id="center">
+        <ul >
+            <li >
+                <a href="/"   id ='home'>Home </a>
+            </li>
+            <li>
+                <a href="/productList"  >Products</a>
+            </li>
+            <li>
+                <a href="/aboutus">AboutUs</a>
+            </li>
+            <li>
+               <a href="/#category">Category</a>
+            </li>
+            <li>
+                <a href="/contactus">ContactUs</a>
+             </li>
+ 
+             
+            {% if user.is_authenticated %}
+
+                    {% if user.profile.position == "Customer" or user.profile.position == "Pharmacist"   %}
+                    <li> 
+                        <!-- <a href="{% url 'chat' %}">Advice</a> -->
+                    {% endif %}
+
+                    {% if user.profile.position == 'Cashier' %}
+                    <li> <a href="/createbill">Bill</a> </li>
+                    {% endif %}
+
+                    {% if user.profile.position == 'Druggist'%}
+                    <li><a href="/viewdrugs">M.Drug</a></li>
+                    
+                    {% endif %}
+
+                    {% if user.profile.position == 'System Admin' %}
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    {% endif %}
+               
+            {% endif %}   
+             
+        </ul>
+    </section>
+    <section class="right">
+        <span> 
+            {% if user.profile.position != "System Admin"%}
+            <form action="search" method="GET">
+                <input type="text" value="{{drug_name}}" placeholder="Search here..." name="search" style="border: 1px solid; border-radius:4px; padding:0 !important; margin:0;"/>
+                <button type="submit" class="fa fa-search" id="search-icon"></button>
+            {% endif %}    
+            </form>
+           
+        </span>
+      
+                {% if user.profile.position == "Pharmacist" or user.profile.position == "Customer"  %}
+                    <a href="chat" class="notification">            
+                        <i class="fa fa-bell">{{notice}}</i>
+                    </a>
+
+                {% endif %}
+                {% if user.is_authenticated %}
+                   {% if user.profile.position != "Customer" %}
+                      {% if user.profile.branch == "Head Office" %}
+                           <li style="color: #27ae60; ">{{user.username}} : H.Office </li>
+                      {% else %}
+                    <li style="color: #27ae60; ">{{user.username}} : {{user.profile.branch}} </li>{% endif %}
+                            
+                         {% else %}  <li style="color: #27ae60; ">{{user.username}} </li> {% endif %}
+                    <li><a href="/logout" class="logout">logout</a></li>
+                {% else %}
+                     <li><a href="/login" class="login">Login</a></li>
+                {% endif %}
+                <i class="fa-solid fa-bars" id="menu"></i>
+                <!-- <span><a href="pro">pro</a></span> -->
+    </section>
+   
+
+</header>
+
+<script>
+    let menu=document.getElementById("menu")
+    let center=document.getElementById("center")
+
+ menu.addEventListener("click",()=>{
+
+        if(center.classList.contains("center")){
+            center.classList.remove("center")
+            center.classList.add("response-menu")
+            
+        }
+        else{
+            center.classList.remove("response-menu")
+            center.classList.add("center")
+        }
+    })
+    const currentLocation = window.location.href;
+
+    const navLinks = document.querySelectorAll('header section ul li a');
+    
+    navLinks.forEach(link => {
+      if (link.href === currentLocation) {
+        link.classList.add('active');
+      }
+    });
+    
+    
+</script>

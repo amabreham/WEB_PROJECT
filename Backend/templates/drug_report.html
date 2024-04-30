@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    
+    table {
+        width: fit-content;
+        border-collapse: collapse;
+        margin: 90px auto;
+    }
+    th, td {
+        
+        padding-left: 20px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+         background-color: #f2f2f2;
+    }
+    .tbl-head{
+        background-color: #4CAF50;
+        font-size: 20px;
+        color: white;
+    }
+
+         
+        @media only screen and (max-width: 700px) {
+             
+            
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <table>
+        <tr>
+            <td colspan="6"   class="tbl-head">Sold drugs</td>
+        </tr>
+        <tr>
+            <th>Product-name</th>
+            <th>User</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Created_date</th>
+            <th>Branch</th>
+
+         </tr>
+         <form action="some_view" method="post">
+            {% csrf_token %}
+        {% for temp in sold_drug %}
+        
+            <tr>
+                <td>{{temp.medicine_name}} </td>
+                <td>{{temp.user_name}} </td>
+                <td>{{temp.price}} </td>
+                <td>{{temp.quantity}} </td>
+                <td>{{temp.total}} </td>
+                <td>{{temp.created_date}} </td>
+                <td>{{temp.Branch}} </td>
+
+            </tr> 
+         {%endfor%}
+         <tr>
+            <td colspan="4"> Total sell: {{total}} Birr</td>
+            <td colspan="2"><button onclick="window.print()" style="background: #4CAF50; padding:5px; width:100px; border:none;cursor:pointer; border-radius:5px; color:white">Print</button></td>
+
+         </tr>
+         </form>
+         </table>
+
+
+        <table>
+            <tr>
+                <td colspan="8"   class="tbl-head">Expired drugs less than six months </td>
+            </tr>
+            <tr>
+                <th>Product-name</th>
+                <th>Batch Number</th>
+                <th>Price</th>
+                
+                <th>Category</th>
+                <th>Date</th>
+                <th>branch</th>
+                <th>Quantity</th>
+                <th>Total</th>
+
+            </tr>
+            <form action="some_view" method="post">
+                {% csrf_token %}
+             {% for temp in exp_drug %}
+             {% if temp.time_diff > -3 %}
+
+            <tr>
+                <td>{{temp.Name}} </td>
+                <td>{{temp.Batch_Number}} </td>
+                <td>{{temp.Unit_Price}} </td>
+                <td>{{temp.Category}} </td>
+                <td>{{temp.Date}} </td>
+                <td>{{temp.branch}} </td>
+                <td>{{temp.Quantity}} </td>
+                <td>{{temp.Total}} </td>
+
+
+            </tr> 
+            {% endif %}
+
+             {%endfor%}
+            <tr>
+                <td colspan="4"> Total price: {{price}} Birr</td>
+                <td colspan="1"> <button onclick="window.print()" style="background: #4CAF50; padding:5px; width:100px; border:none;cursor:pointer; border-radius:5px; color:white" >Print</button></td>
+
+     
+            </tr>
+            <tr>
+     
+            </tr>
+            </form>
+        </table>
+
+        
+        <table>
+            <tr>
+                <td colspan="8"   class="tbl-head" style="background: #192a56; color:white">Expired drugs greater than six months</td>
+            </tr>
+            <tr>
+                <th>Product-name</th>
+                <th>Batch Number</th>
+                <th>Price</th>
+                
+                <th>Category</th>
+                <th>Date</th>
+                <th>branch</th>
+                <th>Quantity</th>
+                <th>Total</th>
+
+            </tr>
+            <form action="some_view" method="post">
+            {% csrf_token %}
+             {% for temp in exp_drug %}
+             {% if temp.time_diff < -3 %}
+
+            <tr>
+                <td>{{temp.Name}} </td>
+                <td>{{temp.Batch_Number}} </td>
+                <td>{{temp.Unit_Price}} </td>
+                <td>{{temp.Category}} </td>
+                <td>{{temp.Date}} </td>
+                <td>{{temp.branch}} </td>
+                
+                <td>{{temp.Quantity}} </td>
+                <td>{{temp.Total}} </td>
+            </tr> 
+            {% endif %}
+
+             {%endfor%}
+            <tr>
+                <td colspan="4"> Total price: {{price}} Birr</td>
+                <td colspan="1"> <button onclick="window.print()" type="submit" style="background: #192a56; color:white; padding:5px; width:100px; border:none;cursor:pointer; border-radius:5px">Print</button></td>
+
+     
+            </tr>
+            <tr>
+     
+            </tr>
+            </form>
+        </table>
+         {% include 'footer.html' %}
+
+</body>
+</html>

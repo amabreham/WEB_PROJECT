@@ -1,0 +1,12 @@
+.footer{
+    background: black;
+    color: wheat;
+    height: 300px;
+    margin-bottom: 0px;
+}
+.footer-col{
+    display: grid;
+    grid-column: 4;
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+
+}

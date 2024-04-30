@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+         
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto 90px auto;
+        }
+        th, td {
+            
+            padding-left: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+             background-color: #f2f2f2;
+        }
+        .tbl-head{
+            background-color: #4CAF50;
+            font-size: 20px;
+        }
+        input{
+            border: none;
+            padding: 3px;
+        }
+        .not-found{
+            margin-top: 10px;
+        }
+        .add-img{
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+            margin-bottom: 0%;
+		 }
+		 .add{
+            margin-top: 90px;
+			background: #0275d8;
+			display: inline-block;
+			padding: 8px 12px;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		 }
+         .update-img{
+			width: 25px;
+			height: 25px;
+			border-radius: 50%;
+		 }
+		 .expired{
+            background: red;
+            border:none; 
+            cursor:pointer;
+            width:50px; 
+            border-radius:4px; 
+            height: 25px;
+           }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+<div class="container">
+    <a href="add_druginLebu"><button class="add">
+        <img src="../static/add_img/add_img.jpg" alt="" class="add-img">
+        Add Drug in Lebu</button></a> 
+    <table>
+        {% if medicine %}
+        <tr>
+                 <td colspan="7"   class="tbl-head">Drugs In Lebu Branch</td>
+        </tr>
+        
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Batch_No</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>ExpireDate</th>
+            <th>Action</th>
+
+          </tr>
+          {% for view in medicine %}
+          <tr>
+              <form  action="viewdrugs" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="medID" value="{{view.id}}"  style="width: 70px;" readonly>
+                  <td><input type="text" name="name" value="{{view.Name}}" readonly></td>
+                  <input type="hidden" name="branch" value="jemo">
+
+                  <td><input type="text" name="category" value="{{view.Category}}" readonly></td>
+                  <td><input type="text" name="batchno" value="{{view.Batch_Number}}" readonly></td>
+                  <td><input type="text" name="quantity" value="{{view.Quantity}}" readonly></td>
+
+                  <td><input type="text" name="price" value="{{view.Unit_Price}}" readonly></td>
+                   {% if view.Expired_Date > 0 and view.exdate > 0 %} 
+                  <td><span id="event-box">{{view.Expired_Date}} m and {{view.Days}} d left</span></td>
+                  {% elif view.Expired_Date < 1 and view.exdate > 0 %} 
+                  <td> {{view.exdate}} d left</span></td>
+                  {% else %}
+                  <td><button  type="submit" name="expired" class="expired">Expired</button></td>
+                  {% endif %}
+                  <td class="mimizebtn">
+                      <a href="{% url 'L_update' view.id %}" id="update"class="btn" name="L_search" onclick="document.getElementById('updateDrugPopup').style.display='block'"><img src="../static/background/update.jpg" class="update-img"></a>
+                      <button id="delete" type="submit" name="delete" class="btn" onclick="return confirm('Are you sure do you want to delete {{view.Name}}?');"><img src="../static/background/delete.png" class="update-img"></button>
+                  </td> 
+               
+              </form>
+                
+          </tr>
+      {% endfor %}
+        <tr>
+            <td colspan="7">
+                <h4>
+                    GIT:{{GIT}}, CNS:{{CNS}}, ENT:{{ENT}}, CVS:{{CVS}}, Minerals:{{minerals}},
+                    Cosmotics:{{cosmotics}}, Hormones:{{hormones}}, Anti_virals:{{Anti_virals}}, Anti_infectives:{{Anti_infectives}},
+                    Anti_helmentics:{{Anti_helmentics}}, maskuloskeletal:{{maskuloskeletal}}, Medical_Supplies:{{Medical_Supplies}}
+                    <p>Total_Drug_Amount: <span id="total_num">{{total_num}}</span></p>
+                </h4>
+            </td>
+        </tr>
+{% else %}
+    <p class="not-found">NO DRUG FOUND IN LEBU BRANCH</p>
+{% endif %}          </table>
+</div>
+{% include 'footer.html' %}
+
+</body>
+</html>

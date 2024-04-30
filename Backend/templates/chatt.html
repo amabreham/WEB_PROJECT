@@ -1,0 +1,373 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>advising</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@200;300&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+       }
+      .container {
+        --light-color: #fff;
+        height: 500px;
+        width: 400px;
+        background: var(--light-color);
+        position: fixed;
+        bottom: 10px;
+        right: 400px;
+        box-shadow: 0px 0px 15px 0px #27ae60;
+        border-radius: 20px;
+      
+      }
+      .chat-header {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding: 0px 30px;
+        background-color: #27ae60;
+        color: var(--light-color);
+        font-size: 1.5rem;
+       border-radius: 20px 20px 0 0;
+      }
+      #clear_btn{
+        width: 60px;
+        height: 20px;
+        color: red;
+        background-color: white;
+        padding: 3px 5px 3px 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      .chat-header img {
+        height: 100%;
+        width: 100%;
+      }
+      .chat-header .title {
+        padding-left: 10px;
+      }
+      .chat-body {
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        padding: 8px 10px;
+        align-items: flex-end;
+        overflow-y: auto;
+        background-color: rgb(243, 238, 238);
+      }
+       
+      .input-sec {
+        flex: 9;
+      }
+      .send {
+        flex: 1;
+        padding-right: 4px;
+      }
+      
+       .send-btn{
+        width: 60px;  
+        cursor: pointer;
+        color: white;
+        border: none;
+        border-radius: 5px;
+       }
+      
+      .chatbot-message,
+      .user-message {
+        padding: 2px 4px 2px 8px;
+        background: #27ae60;
+        color: white;
+          width: max-content;
+        border-radius:8px 30px 8px 0px;
+      }
+      .chatbot-message {
+        background: #27ae60;
+        color: var(--light-color);
+        align-self: flex-start;
+        border-radius: 10px 10px 3px 10px;
+      }
+      .fetched{
+      align-self: flex-start;
+      
+      width: max-content;
+      background: #388ab9;
+      color: white;
+      border-radius:30px 8px 8px 0px;
+      padding: 2px 2px 2px 7px;;
+      }
+      .fetchtime{
+        align-self: flex-start;
+        color: #081923;
+       }
+       .fetch-time{
+         color: #27ae60;
+       }
+      .cust-containainer{
+        margin-top: 70px;
+        width: 400px;
+        height: 80px;
+        margin-left: 10px;
+        background: white;
+        border-radius: 20px;
+        }
+      small{
+      color: white;
+      margin-top: 5px;
+      }
+      .cust-image{
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        float: left;
+
+      }
+      .cust-info{
+       min-height: 80px;
+      border-top: 1px solid white;
+      background: #27ae60;
+      margin-top: 3px;
+      border-radius: 10px;
+      padding: 3px 10px;
+      }
+      
+      a{
+        text-decoration: none !important;;
+      
+      }
+       .class{
+        display: none;
+      }
+      
+        
+       #header-logo{
+        margin-left: -70px;
+        margin-right: -100px;
+
+       }
+       #my_button{
+        height: 40px;
+       background: #388ab9;
+      margin-top: -60px;
+      border-radius: 10px;
+      width: 40px;
+      position: absolute;
+      margin-left: 300px;
+       }
+       .msg_count{
+        padding: 5px;  
+        border-radius: 50%;
+        background: #fff;
+        color: #27ae60;
+        margin-left: 200px;
+       }
+    
+       @media only screen and (max-width: 767px) {
+        .container {
+          height: auto;
+          width: 100%;
+          position: static;
+          border-radius: 0;
+          box-shadow: none;
+          margin: 60px 10px 0px 10px;
+            padding: 5px 30px;
+        }
+        .chat-header {
+          font-size: 1.2rem;
+
+          padding: 0px 10px;
+        }
+        .chat-body {
+          height: 200px;
+          padding: 8px 5px;
+        }
+        .cust-containainer {
+          margin-top: 70px;
+          padding: 5px 10px;
+          margin-left: 0;
+          width: 100%;
+          height: auto;
+        }
+      }
+      
+      @media only screen and (min-width: 768px) and (max-width: 991px) {
+        .container {
+          height: auto;
+          width: 100%;
+          position: static;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .chat-header {
+          font-size: 1.3rem;
+        }
+        .chat-body {
+          height: 250px;
+        }
+        .cust-containainer {
+          margin-top: 50px;
+          margin-left: 0;
+          width: 100%;
+          height: auto;
+        }
+      }
+      
+     </style>
+    </head>
+    <body>
+    {% include 'header.html' %}
+   
+     <div class="body-container">
+    <div class="cust-containainer">
+      
+      <div >
+  
+        {% for customer in customer %}
+       
+        {%if user.get_username != customer.username %}
+            {% if user.profile.position == 'Customer' %}
+           
+                {% if customer.profile.position == 'Pharmacist' %}
+                
+                  <!-- <input type="hidden" name="notificate" value="{{id}}" /> -->
+
+                 <a href="{% url 'advice' customer.pk %}">
+                    <p class="cust-info" >
+                         <small> {{customer.username}} </small><br>  
+                        <small> {{customer.profile.branch}} </small><br>  
+
+                        {% if customer.username == sender or reciever == customer.username %}
+                        {% if notice == 0 %}
+                          <small> {{message}} </small><br>
+                        {% else %}
+                            {% if reciever == user.username %}
+                                <small> {{message}} </small>
+                                <form action="http://127.0.0.1:8000/do_read" method="post" name="my_form">
+                                  {% csrf_token %}
+                                  <button type="submit" id="my_button">
+                                    <i class="fa fa-bell" style="color: white;">{{notice}}</i>  <br> 
+                                  </button><br>
+                              </form>
+                            {% else %}
+                            <small> {{message}} </small><br>
+
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                        <small class="position">{{customer.profile.position}} </small>
+                    </p>
+                 </a>
+               
+                {% endif %}
+
+            {% endif %}
+
+             {% if user.profile.position == 'Pharmacist' %}
+                  {% if customer.profile.position == 'Customer' %}
+             
+                      <a href="{% url 'advice' customer.pk %}"  >
+
+                      <p class="cust-info" >
+                           <small style="font-size: 18px; color:black"> {{customer.username}} </small><br>
+
+                          {% if customer.username == sender or reciever == customer.username %}
+                              {% if notice == 0 %}
+                                <small style="color: white;"> {{message}} </small><br>
+                              {% else %}
+                                  {% if reciever == user.username %}
+                                      <small> {{message}} </small>
+                                      <form action="http://127.0.0.1:8000/do_read" method="post" name="my_form">
+                                        {% csrf_token %}
+                                        <button type="submit" id="my_button">
+                                          <i class="fa fa-bell" style="color: white;">{{notice}}</i>  <br> 
+                                        </button><br>
+                                    </form>
+                                  {% else %}
+                                  <small> {{message}} </small> <br>
+
+                                  {% endif %}
+                              {% endif %}
+
+                          {% endif %}
+                          <small class="position">{{customer.profile.position}} </small>
+
+        
+                        </p>
+ 
+                    </a>
+                  
+                  {% endif %}
+            {% endif %}
+            
+        {% endif %}
+        
+      {% endfor %}
+     </div>
+    
+    </div>
+    
+  </div>
+
+  <div class="container">
+    <div class="chat-header">
+      <div class="logo">
+       </div>
+      <div class="title">{{custom.username}}</div>
+      {% if custom %}
+          <form method="post" action="http://127.0.0.1:8000/chat_delete">
+            {% csrf_token %}
+            <input type="hidden" name="sname" value="{{custom.username}}">
+            <div class="title" style="margin-left: 170px;"><button name="delete" id='clear_btn' onclick=" return confirm('Are you sure to clear chat history?')"> clear</button></div>
+          </form>
+
+      {% endif %}
+ 
+    </div>
+    <div class="chat-body">
+      {% for msg in msg %}
+            {% if msg.recv_name == user.username and msg.send_name == custom.username %}
+                <small class="fetchtime"> {{msg.date|date:'Y-m-d'}} </small>
+                <span class="fetched"> {{msg.msg}} </span>
+                {% endif %}
+            {% if msg.send_name == user.username and msg.recv_name == custom.username %}
+                <small class="fetch-time"> {{msg.date|date:'Y-m-d'}} </small>
+                <p class="user-message"> {{msg.msg}} </p>
+           {% endif %}
+       {%endfor%}
+
+      </div>
+      
+    <div class="chat-input">
+        {% if custom %}
+
+              <form action="{% url 'advice' custom.pk %}" method="POST">
+                {% csrf_token %}
+                <div class="input-sec"></div>
+                {% if user.is_authenticated %}
+                <input type="hidden" value="{{user.username}}" name="msg_sender" 
+                readonly> {% endif %}
+                
+                    <input type="hidden" id="txtInput" name="msg_reciever" id="msg_reciever" value="{{custom.username}}"/> 
+                    <textarea  rows="5" cols="51" id="text-area" name="message" > </textarea>
+                     <button class="send-btn"><img src="../static/images/send.svg" alt="send" /></button>
+          
+              </form>
+        {% endif %}
+    </div>
+  
+     
+  </body>
+ 
+</html>

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>category</title>
+    <link rel="stylesheet" href="{% static 'css/css.css' %}">
+
+</head>
+<body>
+    {% include 'header.html' %}
+
+
+        <div class="btn_container">
+            <a href="git"><button class="find_by_category">GIT</button></a><a href="cns"><button class="find_by_category" id="CNS">CNS</button></a><a href="ent"><button class="find_by_category" id="ENT">ENT</button></a><a href="cvs"><button class="find_by_category" id="CVS">CVS</button></a>
+          <a href="Minerals">  <button class="find_by_category" id="Minerals">Minerals</button></a><a href="Anti_infectives"><button class="find_by_category" id="Anti_infectives">Anti_infectives</button></a>
+          <a href="Anti_helmentics">  <button class="find_by_category" id="Anti_helmentics">Anti_helmentics</button></a><a href="Cosmotic"><button class="find_by_category" id="Cosmotic">Cosmotic</button></a><a href="Maskuloskeletal"><button class="find_by_category" id="Maskuloskeletal">Maskuloskeletal</button></a>
+          <a href="Medical_Supplies">  <button class="find_by_category" id="Medical_Supplies">Medical_Supplies</button></a><a href="Vitamins"><button class="find_by_category" id="Vitamins">Vitamins</button></a><a href="Anti_virals"><button class="find_by_category" id="Anti_virals">Anti_virals</button></a>
+            
+    
+    
+        </div>
+
+        <div class="container" id="CVS">
+            {% if CVSs %}
+            <p class="title">CVS drugs</p>
+
+            {% for CNS in CVSs %}
+            
+               <div class="cat_git">
+                   <img src="{{CNS.Image.url}}" alt="no image" class="image">
+                   <span>Name: {{CNS.Name}} </span><br>
+                   <span>Price: {{CNS.Unit_Price}}</span><br>
+                </div>
+               
+            {%  endfor %}
+            {% else %}
+            <h2> No Drug Found in CVS Category!</h2>
+        {% endif %} 
+        </div>
+    </div>
+</body>
+</html>

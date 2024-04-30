@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Drug Management Page</title>
+	<style>
+		/* Embedded styles */
+		.container {
+		 
+			margin: 0 auto;
+			padding: 40px;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		th, td {
+			padding: 6px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		.btn {
+			display: inline-block;
+			padding: 8px 12px;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		.btn:hover {
+			background-color: #3e8e41;
+		}
+		#delete{
+			padding: 0;
+            background-color: white;
+        }
+        #update{
+			padding: 0;
+			text-decoration: none;
+            background-color: white;
+        }
+   
+        
+        .popupadd{
+            display: none;
+            z-index: 1;
+            margin-top: -400px;
+            position: absolute;
+        }
+		.popup {
+  			position: absolute;
+			z-index: 1;
+			left: 0;
+            top: 0;
+ 			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+		.popup-content {
+			background-color: #fefefe;
+			margin: 35px auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 40%;
+		}
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+			cursor: pointer;
+		}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.form-group {
+			margin-bottom: 10px;
+		}
+		.form-group label {
+			display: block;
+			margin-bottom: 5px;
+		}
+		.form-group input {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+		.form-group button {
+			margin-top: 10px;
+		}
+		.pagination {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 20px;
+		}
+		.pagination button {
+			margin: 0 5px;
+			padding: 8px 12px;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		.pagination button:hover {
+			background-color: #3e8e41;
+		}
+		.pagination button.disabled {
+			background-color: #ccc;
+			cursor: not-allowed;
+		}
+        input{
+            border: none;
+        }
+        #finished{
+            margin: -30px 0 0 100px;
+            position: absolute;
+			display: inline-block;
+			padding: 8px 12px;
+			background-color: #ee300e;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+
+        }
+		.minimize{
+            width: 50px !important;
+ 		}
+		#title{
+			margin-top: 30px;
+		}
+		.update-img{
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+		 }
+		 #desc{
+			width: 100%;
+		 }
+	</style>
+</head>
+<body>
+    {% include 'header.html' %}
+	<div class="container">
+		<h1 id="title">Drug Management Page</h1>
+        <a href="http://127.0.0.1:8000/add_drugs"><button class="btn">Updating Drug</button></a>
+       
+	
+ 
+	
+
+	<div class="popup" id="updateDrugPopup">
+		<div class="popup-content">
+			<!-- <span class="close" onclick="hidePopup('updateDrugPopup')">&times;</span> -->
+			<h2>Update Drug</h2>
+            <form action="http://127.0.0.1:8000/viewdrugs" method="POST" enctype="multipart/form-data" class="form" id="form">
+                {% csrf_token %}
+                 
+				{% if messages %}
+				{% if success %}
+					{% for message in messages %}
+						<h3 style="color:green;" >  {{message}} </h3>
+					{% endfor %}
+				{% else %}     
+					{% for message in messages %}
+						<h3 style="color:red;" >  {{message}} </h3>
+					{% endfor %}
+				{% endif %}
+			 
+			{% endif %}
+
+                <div class="form-group">
+ 					<input type="hidden" name="medID" {% for L_search in L_search %} value="{{L_search.id}}" {% endfor %} >	
+                </div>
+				<div class="form-group">
+					<label for="drugName">Name:</label>
+					<input type="text" name="name" class="text" placeholder="Enter medicine-name" {% for L_search in L_search %} value="{{L_search.Name}}" {% endfor %} >				</div>
+				<div class="form-group">
+					<label for="drugPrice">Batch_Number:</label>
+					<input type="text" name="batchno" class="text" placeholder="Enter batch-number" {% for L_search in L_search %} value="{{L_search.Batch_Number}}" {% endfor %} > 				</div>
+				<div class="form-group">
+					<label for="drugPrice">Image:</label>
+					<small>{% for L_search in L_search %}prev image: {{L_search.Image}} {% endfor %} </small><input type="file" name="medimage" class="text" > 				</div>
+				<div class="form-group">
+
+					<label for="drugPrice">Expired_Date:</label>
+					<input type="date" name="expireddate" class="text" {% for L_search in L_search %} value="{{L_search.Expired_Date|date:'Y-m-d'}}" {% endfor %} ></div>
+					
+					<div class="form-group">
+						<label for="drugPrice">Quantity:</label>
+						<input type="number" name="quantity" class="text" {% for L_search in L_search %} value="{{L_search.Quantity}}" {% endfor %} ></div>
+				
+						<div class="form-group">
+					<label for="drugPrice">Price:</label>
+					<input type="number" name="price" class="text" placeholder="Enter price" {% for L_search in L_search %} value="{{L_search.Unit_Price}}" {% endfor %} >				</div>
+				<div class="form-group">
+					<label for="drugPrice">Category:</label>
+					<select title="Category" name="category" class="text" id="desc">
+						<option value="GIT">GIT</option>
+						<option value="CNS">CNS</option>
+						<option value="ENT">ENT</option>
+						<option value="CVS">CVS</option>
+						<option value="Vitamins">Vitamins</option>
+						<option value="Minerals">Minerals</option>
+						<option value="Hormones">Hormones</option>
+						<option value="Cosmotics">Cosmotics</option>
+						<option value="Anti_virals">Anti-virals</option>
+						<option value="Anti_infectives">Anti-infectives</option>
+						<option value="Anti_helmentics">Anti-helmentics</option>
+						<option value="Maskuloskeletal">Maskuloskeletal</option>
+						<option value="Medical_Supplies">Medical Supplies</option>
+					</p> </select></div>
+				<div class="form-group">
+					<label for="drugPrice">Description:</label>
+					<textarea name="description" placeholder="type description here..." class="text" id="desc" > {% for L_search in L_search %} {{L_search.Description}} {% endfor %}</textarea> </div>
+				<button class="btn" type="submit" name="L_update" onclick="return confirm('Are you sure do you want to update {% for L_search in L_search %} {{L_search.Name}} {% endfor %}?');">Update</button>
+			</form>
+				<a href="http://127.0.0.1:8000/lebu_branch"><button  id="finished" onclick="document.getElementById('updateDrugPopup').style.display='none'">Exit</button>
+				</a>
+		</div>
+	</div>
+</body>
+</html>

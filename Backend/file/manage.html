@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Drug Management Page</title>
+	<style>
+		/* Embedded styles */
+		.container {
+		 
+			margin: 0 auto;
+			padding: 40px;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		th, td {
+			padding: 10px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		.btn {
+			display: inline-block;
+			padding: 8px 12px;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		.btn:hover {
+			background-color: #3e8e41;
+		}
+        #delete{
+            background-color: rgb(201, 11, 11);
+        }
+        #update{
+            background-color: rgb(0, 110, 255);
+        }
+		.popup {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+		.popup-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+		}
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+			cursor: pointer;
+		}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		.form-group {
+			margin-bottom: 10px;
+		}
+		.form-group label {
+			display: block;
+			margin-bottom: 5px;
+		}
+		.form-group input {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+		.form-group button {
+			margin-top: 10px;
+		}
+		.pagination {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 20px;
+		}
+		.pagination button {
+			margin: 0 5px;
+			padding: 8px 12px;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		.pagination button:hover {
+			background-color: #3e8e41;
+		}
+		.pagination button.disabled {
+			background-color: #ccc;
+			cursor: not-allowed;
+		}
+        input{
+            border: none;
+        }
+	</style>
+</head>
+<body>
+    {% include 'header.html' %}
+	<div class="container">
+		<h1>Drug Management Page</h1>
+		<button class="btn" onclick="showPopup('addDrugPopup')">Add Drug</button>
+        <!-- <a href="lebu_branch" ><button class="btn" >Lebu Branch</button></a>
+		<button class="btn" >Jemmo Branch</button>
+        <button class="btn" >Main Branch</button> -->
+
+		<table>
+			<thead>
+				<tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Batch_No</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>ExpireDate</th>
+                    <th>Status</th>     
+                    <th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+                {% for view in views %}
+                <tr>
+                    <form  action="drugUpdate" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="medID" value="{{view.id}}"  style="width: 70px;" readonly>
+                        <td><input type="text" name="name" value="{{view.Name}}" readonly></td>
+                        <td><input type="text" name="category" value="{{view.Category}}" readonly></td>
+                        <td><input type="text" name="batchno" value="{{view.Batch_Number}}" readonly></td>
+                        <td><input type="text" name="price" value="{{view.Unit_Price}}" readonly></td>
+                        <td>{{view.Description}}</td>
+                        {% if view.Expired_Date > 4 %} 
+                            <td><span id="event-box">{{view.Expired_Date}} month left</span></td>
+                            <td class="">well</td>
+                        {% elif view.Expired_Date <= 4 and view.Expired_Date > 0 %}
+                            <td><span id="event-box">{{view.Expired_Date}} month left</span></td>
+                            <td> <i class='fas fa-exclamation-triangle' style='font-size:20px;'></i> </td>
+                        {% else %}
+                            <td>Expired</td>
+                            <td><button class="expired">Expired</button></td>
+                          {% endif %}
+                          <td>
+                            <a href="{% url 'viewDrug' view.id %}" id="update"class="btn" name="search" onclick="showPopup('updateDrugPopup')">Update</a>
+                            <button id="delete" type="submit" name="delete" class="btn" onclick="return confirm('Are you sure do you want to delete drug?');">Delete</button>
+                        </td> 
+                    </form>       
+                    
+                </tr>
+            {% endfor %}
+					
+				 
+				<!-- More drug rows here -->
+			</tbody>
+		</table>
+		<div class="pagination">
+			<button class="btn disabled" id="prevBtn">&laquo; Prev</button>
+			<button class="btn active" onclick="gotoPage(1)">1</button>
+			<button class="btn" onclick="gotoPage(2)">2</button>
+			<button class="btn" onclick="gotoPage(3)">3</button>
+			<button class="btn">&hellip;</button>
+			<button class="btn" onclick="gotoPage(10)">10</button>
+			<button class="btn" id="nextBtn" onclick="gotoPage(2)">&raquo; Next</button>
+		</div>
+	</div>
+
+	<!-- Add Drug Popup -->
+	<div class="popup" id="addDrugPopup">
+		<div class="popup-content">
+			<span class="close" onclick="hidePopup('addDrugPopup')">&times;</span>
+			<h2>Add Drug</h2>
+			<form action="http://127.0.0.1:8000/manageDrug" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}				
+				{% for message in messages %}
+                    <p style="color:red;" >  {{message}} </p>
+                {% endfor %}
+				<div class="form-group">
+					<label for="drugName">Name:</label>
+					<input type="text" name="name" class="text" placeholder="Enter medicine-name"><br/>
+				</div>
+				<div class="form-group">
+					<label for="drugPrice">batch-number:</label>
+					<input type="text" name="batchno" class="text" placeholder="Enter batch-number"><br/>
+				</div>
+				<div class="form-group">
+					<label for="drugName">enter expiredate:</label>
+					<input type="date" name="expireddate" class="text" placeholder="enter expiredate"><br/>
+					{% if user.is_authenticated %}
+					<input type="hidden" name="branch" class="text" value="{{user.profile.branch}}"><br/>
+				{% endif %}
+				</div>
+				<div class="form-group">
+					<label for="drugName">Price:</label>
+					<input type="number" name="price" class="text" placeholder="Enter price"><br/>
+				</div>
+				<div class="form-group">
+					<label for="drugName">Image:</label>
+					<input type="file" name="medimage" class="text">
+				</div>
+				<div class="form-group">
+					<label for="drugName">Category:</label>
+					<select title="Category" name="category" class="text">
+						<option value="GIT">GIT</option>
+						<option value="CNS">CNS</option>
+						<option value="ENT">ENT</option>
+						<option value="CVS">CVS</option>
+						<option value="Vitamins">Vitamins</option>
+						<option value="Minerals">Minerals</option>
+						<option value="Hormones">Hormones</option>
+						<option value="Anti_virals">Anti-virals</option>
+						<option value="Anti_infectives">Anti-infectives</option>
+						<option value="Anti_helmentics">Anti-helmentics</option>
+						<option value="Maskuloskeletal">Maskuloskeletal</option>
+						<option value="Medical_Supplies">Medical Supplies</option>
+					</select></div>
+					<div class="form-group">
+						<label for="drugName">Description:</label>
+						<textarea name="description" placeholder="type description here..." class="text"></textarea>
+					</div>
+				<button class="btn" type="submit"  onclick="return confirm('Are you sure do you want to add drug?');">Add</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- Update Drug Popup -->
+	<div class="popup" id="updateDrugPopup">
+		<div class="popup-content">
+			<span class="close" onclick="hidePopup('updateDrugPopup')">&times;</span>
+			<h2>Update Drug</h2>
+            <form action="drugUpdate" method="POST" enctype="multipart/form-data" class="form" id="form">
+                {% csrf_token %}
+                <div class="form-group">
+					<label for="drugPrice">ID:</label>
+					<input type="text" id="id" name="medID" class="text" placeholder="Enter medicine ID"  {% for search in search %} value="{{search.id}}" {% endfor %} >	
+ 
+				</div>
+				<div class="form-group">
+					<label for="drugName">Name:</label>
+					<input type="text" name="name" class="text" placeholder="Enter medicine-name" {% for search in search %} value="{{search.Name}}" {% endfor %} >				</div>
+				<div class="form-group">
+					<label for="drugPrice">Batch_Number:</label>
+					<input type="text" name="batchno" class="text" placeholder="Enter batch-number" {% for search in search %} value="{{search.Batch_Number}}" {% endfor %} > 				</div>
+				<div class="form-group">
+					<label for="drugPrice">Image:</label>
+					<small>{% for search in search %}prev image: {{search.Image}} {% endfor %} </small><input type="file" name="medimage" class="text" > 				</div>
+				<div class="form-group">
+					<label for="drugPrice">Expired_Date:</label>
+					<input type="date" name="expireddate" class="text" {% for search in search %} value="{{search.Expired_Date|date:'Y-m-d'}}" {% endfor %} >				</div>
+				<div class="form-group">
+					<label for="drugPrice">Price:</label>
+					<input type="number" name="price" class="text" placeholder="Enter price" {% for search in search %} value="{{search.Unit_Price}}" {% endfor %} >				</div>
+				 
+				<div class="form-group">
+					<label for="drugPrice">Category:</label>
+					<select title="Category" name="category" class="text">
+						<option value="GIT">GIT</option>
+						<option value="CNS">CNS</option>
+						<option value="ENT">ENT</option>
+						<option value="CVS">CVS</option>
+						<option value="Vitamins">Vitamins</option>
+						<option value="Minerals">Minerals</option>
+						<option value="Hormones">Hormones</option>
+						<option value="Anti_virals">Anti-virals</option>
+						<option value="Anti_infectives">Anti-infectives</option>
+						<option value="Anti_helmentics">Anti-helmentics</option>
+						<option value="Maskuloskeletal">Maskuloskeletal</option>
+						<option value="Medical_Supplies">Medical Supplies</option>
+					</p> </select>				</div>
+				<div class="form-group">
+					<label for="drugPrice">Description:</label>
+					<textarea name="description" placeholder="type description here..." class="text" > {% for search in search %} {{search.Description}} {% endfor %}</textarea> 				</div>
+				<button class="btn" type="submit" name="update" onclick="return confirm('Are you sure do you want to update drug?');">Update</button>
+			</form>
+		</div>
+	</div>
+
+	<script>
+       
+		// Show popup
+		function showPopup(popupId) {
+			document.getElementById(popupId).style.display = "block";
+		}
+
+		// Hide popup
+		function hidePopup(popupId) {
+			document.getElementById(popupId).style.display = "none";
+		}
+
+		// Go to page
+		function gotoPage(pageNum) {
+			// Get all pagination buttons
+			var paginationBtns = document.querySelectorAll('.pagination button');
+			// Get previous and next buttons
+			var prevBtn = document.getElementById('prevBtn');
+			var nextBtn = document.getElementById('nextBtn');
+			// Get active button
+			var activeBtn = document.querySelector('.pagination button.active');
+			// Get total number of pages
+			var totalPages = paginationBtns.length - 2;
+
+			// Disable previous and next buttons if necessary
+			if (pageNum == 1) {
+				prevBtn.classList.add('disabled');
+			} else {
+				prevBtn.classList.remove('disabled');
+			}
+			if (pageNum == totalPages) {
+				nextBtn.classList.add('disabled');
+			} else {
+				nextBtn.classList.remove('disabled');
+			}
+
+			// Remove active class from current button
+			activeBtn.classList.remove('active');
+			// Add active class to selected button
+			paginationBtns[pageNum].classList.add('active');
+		}
+	</script>
+</body>
+</html>

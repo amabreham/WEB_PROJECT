@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>viewresponse</title>
+    <style>
+        .bottom {
+            margin-left:90px ;
+            margin-top: 20px;
+            position: absolute  ;
+        }
+        .down-arrow{
+            width: 30px;
+            height: 30px;
+            border: 50%;
+            
+        }
+        .top{
+            margin-left:150px ;
+
+        }
+         
+        .caption{
+              margin: 70px 200px 50px 200px;
+        }
+        .report{
+            background-color: darkgrey;
+            padding: 20px;
+            border-radius: 30px;
+            margin-bottom: 50px;
+
+        }
+        .report-title{
+            width: fit-content;
+            margin-left: 60px;
+            border-bottom: 2px solid;
+            
+        }
+        .report-sender-info{
+            margin: 50px 0 auto 50px;
+        }
+        .info{
+            margin-left: 30px;;
+        }
+        .sendrequest{
+            background: #1c87c9;
+            color: black;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        a{
+            text-decoration: none;
+        }
+         
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+<p id="bottom" style="margin-top: 0px;"></p>
+    <div class="bottom">
+        <a href="#top"><img src="../static/images/down arrow.jfif" alt="down" class="down-arrow"></a>
+        <a href="sendRequest"><div class="sendrequest">Send-Response</div></a>
+    </div>
+   
+    <div class="caption">
+        <h3 style="margin-left: 100px; color:#1c87c9">Response</h3>
+      {% for view in reciever %}
+        <div class="report">
+            <h2></h2>
+            <div class="report-title">{{view.response_title}}</div>
+            <div class="report-detail">
+            {{view.response_details}} <br>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.<br>
+                Pariatur assumenda ullam culpa necessitatibus reiciendis ipsa quas <br>
+                veritatis aliquam, impedit quia quis voluptas <br>
+                , perferendis repudiandae ex asperiores, dignissimos animi laudantium saepe.
+
+            </div>
+            <div class="report-sender-info">
+                <span class="info">Reciever:  {{view.reciever_name}},</span><span class="info">Branch: {{view.branch}},</span><span class="info">Date: {{view.response_date}}</span>
+            </div>
+
+        </div>
+      {% endfor %}
+
+    </div>
+<div id="top" class="top">
+<a href="#bottom"><img src="../static/images/up arro.jfif" alt="down" class="down-arrow"></i></a>
+</div>
+</body>
+</html>

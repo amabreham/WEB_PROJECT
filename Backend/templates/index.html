@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="style.css">
+
+	<title>Dashboard</title>
+	<style>
+		#form {
+            
+				background-color: #fff;
+                padding: 15px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                max-width: 400px;
+                margin: 30px auto;
+            }
+            h1 {
+                text-align: center;
+            }
+            input[type=text], input[type=email], input[type=tel], input[type=password] {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-bottom: 8px;
+            }
+            input[type=submit] {
+                background-color: #3C91E6;
+                color: white;
+                padding: 10px 18px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            input[type=submit]:hover {
+                background-color: #167be0;
+            }
+            .error {
+                color: red;
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+	</style>
+</head>
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<i class='bx bxs-smile'></i>
+			<span class="text">Betselot Pharmacy</span>
+		</a>
+		<ul class="side-menu top">
+ 				 
+ 					<span class="text" style="margin:0px 0px 100px 60px; color:#3C91E6;font-size: 18px; font-weight: bold;">Dashboard</span>
+			 
+ 			<li id="user_btn" onclick="toggleDropdownUser()">
+				<a    >
+					<i class='bx bxs-user' ></i>
+					<span class="text">Manage User</span>
+				</a>
+				
+			</li>
+			<div id="userDropdown" class="dropdown-user"> 
+				<li onclick="addnewuser()" ><a> add user </a></li>
+				<li onclick="updateuser()"><a>update user </a></li>
+				<li onclick="viewuser()"><a> view user </a></li>
+			</div>
+			<li  id="drug_btn" onclick="toggleDropdownDrug()">
+				<a   >
+					<i class='bx bxs-capsule' ></i>
+					<span class="text">Manage Drug</span>
+				</a>
+			</li>
+			<ul id="drugDropdown" class="dropdown-drug"> 
+				<li onclick="addnewdrug()"><a>add drug  </a></li>
+				<li onclick="updatedrug()"><a>update drug  </a></li>
+				<li onclick="viewdrug()"><a>view drug  </a></li>
+				<li onclick="viewexpireddrug()"><a>view expired drug  </a></li>
+			</ul>
+			<li id="view_customer_btn" onclick="viewcustomer()">
+				<a  >
+					<i class='bx bxs-group' ></i>
+					<span class="text">View customer</span>
+				</a>
+			</li>
+			<li id="view_report_btn">
+				<a  >
+					<i class='bx bxs-message' ></i>
+					<span class="text">View Report</span>
+				</a>
+			</li>
+			<li id="send_report_btn">
+				<a  >
+					<i class='bx bxs-message-alt-edit' ></i>
+					<span class="text">Send Response</span>
+				</a>
+			</li>
+
+			<li id="send_report_btn">
+				<a  >
+					<i class='bx bxs-message-alt-edit' ></i>
+					<span class="text">View Request</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			
+			<li>
+				<a href="#" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			 
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+ 			<!-- <i class='bx bxs-moon'    ></i> -->
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+ 		</nav>
+		<!-- NAVBAR -->
+		<!-- MAIN -->
+
+			<div class="hidden"  id="add_user"  > 
+				<form  id="form">
+					<h1>Add New User Form</h1>
+		
+					<label for="fname">First Name:</label>
+					<input type="text" id="fname" name="fname" required>
+					<div class="error" id="fname-error"></div>
+		
+					<label for="lname">Last Name:</label>
+					<input type="text" id="lname" name="lname" required>
+					<div class="error" id="lname-error"></div>
+
+					<label for="lname">Username:</label>
+					<input type="text" id="Username" name="Username" required>
+					<div class="error" id="Username-error"></div>
+		
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" required>
+					<div class="error" id="email-error"></div>
+		
+					<label for="phone">Phone:</label>
+					<input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+					<div class="error" id="phone-error"></div>
+		
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+					<div class="error" id="password-error"></div>
+		
+					<label for="confirm_password">Confirm Password:</label>
+					<input type="password" id="confirm_password" name="confirm_password" required>
+					<div class="error" id="confirm-password-error"></div>
+
+					<!-- profile data -->
+
+					<label for="confirm_password">Photo:</label>
+					<input type="password" id="confirm_password" name="confirm_password" required>
+					<div class="error" id="confirm-password-error"></div>
+
+					<label for="confirm_password">Salary:</label>
+					<input type="password" id="confirm_password" name="confirm_password" required>
+					<div class="error" id="confirm-password-error"></div>
+
+					<label for="confirm_password">branch:</label>
+					<input type="password" id="confirm_password" name="confirm_password" required>
+					<div class="error" id="confirm-password-error"></div>
+
+					<label for="confirm_password">gender:</label>
+					<input type="password" id="gender" name="gender" required>
+					<div class="error" id="confirm-password-error"></div>
+
+					<label for="confirm_password">position:</label>
+					<input type="password" id="position" name="position" required>
+					<div class="error" id="position-error"></div>
+
+				 
+					<input type="submit" value="Add User">
+				</form>
+				  
+			</div>
+			<div class="hidden"  id="update_user"  > 
+				<form  id="form">
+					<h1>User Update User Data</h1>
+		
+					<label for="fname">First Name:</label>
+					<input type="text" id="fname" name="fname" required>
+					<div class="error" id="fname-error"></div>
+		
+					<label for="lname">Last Name:</label>
+					<input type="text" id="lname" name="lname" required>
+					<div class="error" id="lname-error"></div>
+		
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" required>
+					<div class="error" id="email-error"></div>
+		
+					<label for="phone">Phone:</label>
+					<input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+					<div class="error" id="phone-error"></div>
+		
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+					<div class="error" id="password-error"></div>
+		
+					<label for="confirm_password">Confirm Password:</label>
+					<input type="password" id="confirm_password" name="confirm_password" required>
+					<div class="error" id="confirm-password-error"></div>
+		
+					<input type="submit" value="Update User Data">
+				</form>
+			</div>
+			<div class="hidden"  id="view_user"  > 
+				 <h1>view user </h1>
+			</div>
+			<!-- drug -->
+			<div class="hidden"  id="add_drug"  > 
+				<form  id="form">
+					<h1>Add Drug Form</h1>
+		
+					<label for="fname">Drug Name:</label>
+					<input type="text" id="fname" name="fname" required>
+					<div class="error" id="fname-error"></div>
+		
+					 
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" required>
+					<div class="error" id="email-error"></div>
+		
+					<label for="phone">Price:</label>
+					<input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+					<div class="error" id="phone-error"></div>
+
+					<input type="submit" value="Add Drug">
+				</form>
+			</div>
+			<div class="hidden"  id="update_drug"  > 
+				<form  id="form">
+					<h1>Update Drug Form</h1>
+		
+					<label for="fname">Drug Name:</label>
+					<input type="text" id="fname" name="fname" required>
+					<div class="error" id="fname-error"></div>
+		
+					 
+					 
+					<label for="phone">price:</label>
+					<input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+					<div class="error" id="phone-error"></div>
+		
+					 
+					<input type="submit" value="Update Drug">
+				</form>
+			</div>
+			<div class="hidden"  id="view_drug"  > 
+				 <h1>view drug </h1>
+			</div>
+			<div class="hidden"  id="view_expired_drug"  > 
+				 <h1>view expired drug </h1>
+			</div>
+			<div class="hidden"  id="view_customer"> 
+				<h1>view customer</h1>
+		   </div>
+			<div class="hidden" id="view_report" > 
+				 <h1>View Report</h1>
+			</div>
+			<div class="hidden"  id="send_report"> 
+				 <h1>Send Request</h1>
+			</div>
+			 
+		<!--MAIN-->
+
+		 
+ 	</section>
+	<!-- CONTENT -->
+	
+
+	<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<head> 
+    <style>
+     
+        .catagory-slider-container {
+          position: relative;
+          overflow: hidden;
+          background-color: #fff;
+          height: 400px;
+          padding-top: 50px;
+          
+         }
+         #category{
+           margin-top: -100px;
+         }
+        
+        .slider {
+          display: flex;
+          transition: transform 0.3s ease-in-out;
+          list-style: none;
+          margin: 30px 0px 0px 0px;
+          padding: 0;
+        }
+        
+        .slider-item {
+          width: 100vw;
+          flex-shrink: 0;
+          flex-grow: 0;
+          text-align: center;
+          font-size: 24px;
+          padding: 20px 0px 20px 0px;
+          color: #fff;
+          display: flex;
+          flex-direction: row;
+           align-items: center;
+          justify-content: space-evenly;
+          align-items: center;
+          border-radius: 10%;
+          gap:5px;
+         }
+        
+        .slider-item a {
+          color: #fff;
+          background-color:#27ae60;
+          text-decoration: none;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 250px;
+          width: 24%;
+          border-radius: 15px;
+        }
+        .slider-item a:hover{
+       
+          transform: translate(0,-5px);
+          transition: all ease-in 0.5s;
+        }
+        .prev-btn,
+        .next-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: #333;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+        }
+        
+        .prev-btn {
+          left: 0;
+        }
+        
+        .next-btn {
+          right: 0;
+        }
+      
+        p{
+          margin-top: 20px;
+          font-size: 14px;
+        }
+        @media screen and (max-width: 768px) {
+          p{
+             font-size: 12px;
+             margin-top: 20px;
+          }
+          h3{
+            font-size: 16px;
+            margin-top: 10px;
+          }
+        }
+        
+        /* Styles for mobile screens */
+        @media screen and (max-width: 480px) {
+          p{
+            margin-top: 3px;
+            font-size: 8px;
+          }
+          h3{
+            font-size: 12px;
+          }
+        }
+      </style>
+          
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+</head>
+<div class="catagory-slider-container" id="category">
+  <h1>Category</h1>
+    <ul class="slider">
+        <li class="slider-item">
+            <a href="git">
+              <h3>GIT</h3>
+              <p>Gastro Intestinam Truck. Reprehenderit tempora beatae doloribus facere.</p>
+
+            </a>
+            <a href="cns">
+              <h3>CNS</h3>
+         <p>Central Nervous System. Reprehenderit tempora beatae doloribus facere.</p>
+
+            </a>
+            <a href="ent">
+              <h3>ENT</h3>
+              <p>ENT is an abbreviation for ears, nose, and throat. It is a field of medicine also called otolaryngology.</p>
+
+            </a>
+            <a href="cvs">
+              <h3>CSV</h3>
+              <p>   tempore sapiente mo i veritatis ve. Reprehenderit tempora beatae doloribus facere.</p>
+
+            </a>
+        </li>
+        <li class="slider-item">
+            <a href="Vitamins">
+              <h3>Vitamins</h3>
+              <p>Vitamins are organic compounds that are essential for normal growth and nutrition.</p>
+            </a>
+            <a href="Minerals">
+              <h3>Minerals</h3>
+              <p>Minerals are inorganic substances that are essential for normal growth and nutrition.</p>
+            </a>
+            <a href="Hormones">
+              <h3>Hormones</h3>
+              <p>Hormones are chemicals that coordinate different functions in your body by carrying messages</p>
+            </a>
+            <a href="Anti_virals">
+              <h3>Anti-virals</h3>
+              <p>Antivirals are a class of drugs that are used to treat viral infections.</p>
+            </a>
+        </li>
+        <li class="slider-item">
+          <a href="Medical_Supplies">
+            <h3>Medical Supplies</h3>
+            <p>Medical supplies are items that are used in the diagnosis
+            </p>
+          </a>
+          <a href="Anti_infectives">
+            <h3>Anti-infectives</h3>
+            <p>Lorem   tempore sapiente mo i veritatis ve. Reprehenderit tempora beatae doloribus facere.</p>
+          </a>
+          <a href="Anti_helmentics">
+            <h3>Anti-helmentics</h3>
+            <p>Lorem   tempore sapiente mo i veritatis ve. Reprehenderit tempora beatae doloribus facere.</p>
+          </a>
+          <a href="Maskuloskeletal">
+            <h3>Maskuloskeletal</h3>
+            <p>Lorem   tempore sapiente mo i veritatis ve. Reprehenderit tempora beatae doloribus facere.</p>
+          </a>
+        </li>
+        
+    </ul>
+    <button class="prev-btn">&#8249;</button>
+    <button class="next-btn">&#8250;</button>
+  </div>
+  
+  <script>
+    const slider = document.querySelector('.slider');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    let direction;
+    
+    prevBtn.addEventListener('click', () => {
+      direction = -1;
+      slider.style.transform = `translateX(${direction * 100}%)`;
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      direction = 1;
+      slider.style.transform = `translateX(${direction * 100}%)`;
+    });
+    
+    slider.addEventListener('transitionend', () => {
+      if (direction === -1) {
+        slider.appendChild(slider.firstElementChild);
+      } else if (direction === 1) {
+        slider.prepend(slider.lastElementChild);
+      }
+    
+      slider.style.transition = 'none';
+      slider.style.transform = 'translateX(0)';
+      setTimeout(() => {
+        slider.style.transition = 'transform 0.3s ease-in-out';
+      });
+    });
+  </script>
+  

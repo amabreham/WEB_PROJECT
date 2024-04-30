@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>response</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <div class="recieve">
+            <p>hey!</p>
+        </div>
+    <form action="response" method="POST">
+        {% csrf_token %}
+     <fieldset style="width: 500px; margin:auto; border-radius:10px">
+            <div style="background: #ffaaa2; opacity:0.8;">
+                {% for message in messages %}
+                
+                <h3 style="color: red;"> {% if name %}`{{name}}` {% endif %} {{message}} </h3>
+                {% endfor %} 
+            </div>
+            <p>Request Title:<br> <input type="text" class="report" name="title" placeholder="enter title"> </p>
+            {% if user.is_authenticated %} <input type="hidden" class="report" value="{{user.username}}" name="sender_name" 
+             readonly> </p> {% endif %}
+             <p>Reciever Name: <br><select title="select" name="reciever_name">
+                {% for recieve in recieve %}
+                    <option>{{recieve.get_username}}</option>  
+                {% endfor %}
+            </select></p>
+            <p> <input type="hidden" class="report" value="{{user.profile.branch}}" name="branch" readonly> </p>
+            <p>Detail <br> <textarea placeholder="type detail here..." name="detail"></textarea>
+               
+      
+            <div class="form-actions">
+                <button class="btn btn-primary js-tooltip" >SendResponse</button>
+            </div>
+     </fieldset>
+     
+    </form>
+     
+  </div>
+</body>
+</html>

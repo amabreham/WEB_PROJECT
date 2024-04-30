@@ -1,0 +1,86 @@
+{% load static %}
+{% static 'images' as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drug_update</title>
+    <style>
+        body {
+            background: whitesmoke;;
+        }
+        .form{
+            margin-top: 100px;
+            width: 500px;
+            margin-left: 250px;
+            border-radius: 20px;
+        }
+       .container{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(250px, 1fr));
+        grid-gap: 10px;
+       }
+       .message{
+        grid-column: span 2 ;
+       }
+        #id{
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+  
+       
+            <form action="drugUpdate" method="POST" enctype="multipart/form-data" class="form">
+                {% csrf_token %}
+            <fieldset>
+            
+                <legend>Medicine Update form</legend>
+            <div class="container">
+                <div class="message">
+                    {% for message in messages %}
+                    <h3 style="color: red;"> {{message}}</h3>
+                    {% endfor %} 
+                </div>
+                <div>Medicine ID:<br><input type="text" id="id" name="medID" class="text" placeholder="Enter medicine ID"  {% for search in search %} value="{{search.id}}" {% endfor %} >
+                <span><button name="search">Search</button></span></div>
+                <div>Medicine Name:<br><input type="text" name="name" class="text" placeholder="Enter medicine-name" {% for search in search %} value="{{search.Name}}" {% endfor %} ></div>
+           
+                <div>Batch Number:<br><input type="text" name="batchno" class="text" placeholder="Enter batch-number" {% for search in search %} value="{{search.Batch_Number}}" {% endfor %} >  </div>
+                <div>Image:<br><small>{% for search in search %}prev image: {{search.Image}} {% endfor %} </small><input type="file" name="medimage" class="text" > </div>
+
+                <div>Expired Date:<br> <input type="date" name="expireddate" class="text" {% for search in search %} value="{{search.Expired_Date|date:'Y-m-d'}}" {% endfor %} > </div>
+                <div>Unit Price:<br> <input type="number" name="price" class="text" placeholder="Enter price" {% for search in search %} value="{{search.Unit_Price}}" {% endfor %} ></div>
+                <div class="inputs">Category:<br> <select title="Category" name="category" class="text">
+                    <option value="GIT">GIT</option>
+                    <option value="CNS">CNS</option>
+                    <option value="ENT">ENT</option>
+                    <option value="CVS">CVS</option>
+                    <option value="Vitamins">Vitamins</option>
+                    <option value="Minerals">Minerals</option>
+                    <option value="Hormones">Hormones</option>
+                    <option value="Anti_virals">Anti-virals</option>
+                    <option value="Anti_infectives">Anti-infectives</option>
+                    <option value="Anti_helmentics">Anti-helmentics</option>
+                    <option value="Maskuloskeletal">Maskuloskeletal</option>
+                    <option value="Medical_Supplies">Medical Supplies</option>
+                </p> </select>
+                <div>Description:<br> <textarea name="description" placeholder="type description here..." class="text" > {% for search in search %} {{search.Description}} {% endfor %}</textarea> </div>
+                
+            <div class="form-actions">
+                <button class="btn btn-primary js-tooltip" type="submit" name="update" onclick="return confirm('Are you sure do you want to update?');">Update</button>
+                <button class="btn btn-primary js-tooltip" type="submit" name="delete" onclick="return confirm('Are you sure do you want to delete {{search.Name}}?');">Delete</button>
+
+            </div>
+        </div>
+            </fieldset>
+            
+            </form>
+        
+        <div></div>
+   
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>billing</title>
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: repeat(2, minmax(300px, 1fr));
+            margin-top: 110px;
+            }
+        
+        .table2{
+            width: 430px;
+        }
+        table{
+            border: 1px solid;
+            border-collapse: collapse;
+            
+
+        }
+        th,td{
+            border: 1px solid;
+            padding-left: 2px;
+ }
+       input{
+        width: 90px;
+       }
+       
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+
+    <div class="container">
+        <div class="table1">
+             <table>
+                <tr>
+                    <form action="createbill" method="POST">
+                        {% csrf_token %}
+                    <td colspan="3">
+                         <div class="inputs">Search by Category!<br> <select title="Category" name="category" class="text">
+                            <option value="GIT" selected>GIT</option>
+                            <option value="CNS">CNS</option>
+                            <option value="ENT">ENT</option>
+                            <option value="CVS">CVS</option>
+                            <option value="Cosmotics">Cosmotics</option>
+                            <option value="Vitamins">Vitamins</option>
+                            <option value="Minerals">Minerals</option>
+                            <option value="Hormones">Hormones</option>
+                            <option value="Anti_virals">Anti-virals</option>
+                            <option value="Anti_infectives">Anti-infectives</option>
+                            <option value="Anti_helmentics">Anti-helmentics</option>
+                            <option value="Maskuloskeletal">Maskuloskeletal</option>
+                            <option value="Medical_Supplies">Medical Supplies</option>
+                        </div> </select>
+                        <button name="search">Search</button>
+                    </td>
+                    </form>
+                </tr>
+                <tr>
+                    <th>Drug name</th>
+                     <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                 </tr>
+                 {% for bill in bill %}
+                 {% if bill.Expired_Date > 0 %}
+                <tr>
+                    <form action="createbill" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="drug_id" value="{{ bill.id }}"/>
+                        <td><input type="text" name="drug_name" value="{{bill.Name}}" readonly></td>
+                        <td><input type="number" name="drug_price" value="{{bill.Unit_Price}}"readonly></td>
+                        <td><input type="number" name="Quantity" placeholder="0.00"></td>
+                        <td><button name="adding">add</button></td>
+                    </form>
+                    
+                 </tr>
+                 {% endif %}
+                 
+                 {% endfor %}
+              </table>
+          
+        </div>
+
+        <div class="table2">
+             
+
+             <table>
+                <tr>
+                    <td colspan="4">Bill</td>
+                </tr>
+                <tr>
+                     <th>Product-name</th>
+                     <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+                
+                {% for temp in temp %}
+                 <tr>
+                    <form action="createbill" method="POST">
+                        {% csrf_token %}
+                    <input type="hidden" name="med_id" value="{{temp.id}}">
+                    <td><input type="text" name="med_name" value="{{temp.name}}" readonly></td>
+                    <input type="hidden" name="creator" value="{{user.get_username}}" readonly>
+                    <td><input type="number" name="price" value="{{temp.price}}" readonly></td>
+                    <td><input type="number" name="quantity" value="{{temp.Quant}}" readonly></td>
+                    <td><input type="number" name="total" value="{{temp.total}}" readonly></td>
+                    <td><button name="remove">remove</button></td>
+                     <button type="hidden" name="print" id="print" style="background: white; border:none"></button>
+                     <button type="hidden" name="clear" id="clear" style="background: white; border:none"></button>
+
+ 
+                </form>
+                 </tr>
+                
+                 {%endfor%}
+                 <tr>
+                    {% if temp %}
+                     <td colspan="1"><button type="submit" id="print_mimic" onclick="document.getElementById('print').click()">Save</button></td>
+                    <td colspan="2">Grand-Total: {{grd_total}} Birr</td>
+                    <td colspan="2"><button type="submit" id="clear" onclick="document.getElementById('clear').click()">Clear</button></td>
+
+                    {% endif %}
+
+
+                </tr>
+             </table>
+            
+        </div>
+
+    </div>
+    <script>
+
+        let prints = document.getElementById("print");
+        let print_mimic = document.getElementById("print_mimic");
+        function Print() {
+            prints.click();
+        }
+
+    </script>
+</body>
+</html>

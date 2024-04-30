@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Response form</title>
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet"> -->
+    <style>
+      html, body {
+      min-height: 100%;
+      padding: 0;
+      margin: 200 ;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+    
+      }
+      h1 {
+      margin: 0 0 20px;
+      font-weight: 400;
+      color: #1c87c9;
+      }
+     
+      .main-block {
+      display: relative;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #1c87c9;
+      }
+      form {
+      padding: 25px;
+      margin: 25px;
+      box-shadow: 0 2px 5px #f5f5f5; 
+      background: #f5f5f5; 
+      }
+      .fas {
+      margin: 25px 10px 0;
+      font-size: 72px;
+      color: #fff;
+      }
+      .fa-envelope {
+      transform: rotate(-20deg);
+      }
+      .fa-at , .fa-mail-bulk{
+      transform: rotate(10deg);
+      }
+      input, textarea {
+      width: calc(100% - 18px);
+      padding: 8px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      border: 1px solid #1c87c9;
+      outline: none;
+      }
+      input::placeholder {
+      color: #666;
+      }
+      button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #1c87c9; 
+      font-size: 16px;
+      font-weight: 400;
+      color: #fff;
+      }
+      button:hover {
+      background: #2371a0;
+      }    
+      @media (min-width: 568px) {
+      .main-block {
+      flex-direction: row;
+      }
+      .left-part, form {
+      width: 50%;
+      }
+      .fa-envelope {
+      margin-top: 0;
+      margin-left: 20%;
+      }
+      .fa-at {
+      margin-top: -10%;
+      margin-left: 65%;
+      }
+      .fa-mail-bulk {
+      margin-top: 2%;
+      margin-left: 28%;
+      }
+      }
+      .selector{
+        height: 35px;
+        border: 1px solid #1c87c9;
+        min-width: 100%;
+      }
+    </style>
+  </head>
+  <body style="background-image: url('image2.jpg');">
+      <form action="response" method="POST">
+        {% csrf_token %}
+        <h1>Response</h1>
+        <div class="error_msg">
+          {% for message in messages %}
+            
+          <h3 style="color: red;"> {{message}} </h3>
+          {% endfor %} 
+        </div>
+        <div class="info">
+          <label for="">Requiste title:</label>
+          <input class="Requiste-title" type="text" name="title" placeholder="enter title">
+          {% if user.is_authenticated %}
+              <input type="hidden" class="report" value="{{user.username}}" name="sender_name" readonly> </p>
+           {% endif %}
+          <label for="">Reciever Name:</label><br><br>
+          <select name="" id="" class="selector" title="select" name="reciever_name">
+            {% for recieve in recieve %}
+               <option>{{recieve.get_username}}</option>  
+            {% endfor %}
+          </select>
+          <p> <input type="hidden" class="report" value="{{user.profile.branch}}" name="branch" readonly> </p>
+
+        <div style="margin-top: 20px;">
+          <label for="">Message</label>
+          <textarea rows="4" placeholder="type detail here..." name="detail"></textarea>
+        </div>
+        <button type="submit">SendResponse</button>
+      </form>
+    </div>
+  </body>
+</html>

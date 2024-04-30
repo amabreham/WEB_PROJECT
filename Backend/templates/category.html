@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>category</title>
+    <style>
+        .GIT, .CNS, .Antivirus{
+            border-bottom: 3px solid ;
+            padding:0px;
+            border-radius: 20px;
+            margin-left: -19px;
+            margin-bottom: 100px;
+        }
+        .cat_git{
+            display: inline-block;
+            border-radius: 10px;
+            width: 150px;
+            height: 170px;
+            padding: 3px;
+            margin: 0px;
+            background: #388ab9;
+              
+  
+        }
+        .CAT{
+            display: none ;
+        }
+        .category{
+            margin-top: 100px;
+            margin-left: 30px;
+        } 
+        .find_by_category{
+            border-bottom: 3px solid;
+            padding: 7px;
+            text-align: center;
+            margin: 8px;
+            cursor: pointer;
+        }  
+        .btn_container{
+            border-bottom: 3px solid;
+
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+<div class="category">
+        <div class="btn_container">
+            <button class="find_by_category"  onclick="btn_handler()">GIT</button><a href="cns"><button class="find_by_category" id="CNS">CNS</button></a><button class="find_by_category" id="ENT">ENT</button>
+            <button class="find_by_category" id="Minerals">Minerals</button><button class="find_by_category" id="Antivirus">Antivirus</button><button class="find_by_category" id="Anti_infectives">Anti_infectives</button>
+            <button class="find_by_category" id="Anti_helmentics">Anti_helmentics</button><button class="find_by_category" id="Cosmotic">Cosmotic</button><button class="find_by_category" id="Maskuloskeletal">Maskuloskeletal</button>
+            <button class="find_by_category" id="Medical_Supplies">Medical_Supplies</button><button class="find_by_category" id="Vitamins">Vitamins</button><button class="find_by_category" id="Anti_virals">Anti_virals</button>
+            
+
+
+        </div>
+
+    <div class="GIT">
+         
+       {% for GIT in GIT %}
+      
+            <div class="cat_git" id="GIT">
+                <img src="{{GIT.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%; float:right">
+                <span> {{GIT.Name}} </span><br />
+                <span>{{GIT.Unit_Price}}</span><br />
+                <span> {{GIT.Description}} </span>
+             
+            </div>
+            
+       {%  endfor %}     
+    </div>
+     
+    <div class="CVS" id="CVS">
+         {% for CVS in CVS %}
+      
+            <div class="CAT">
+                <img src="{{CVS.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{CVS.Name}} </span><br>
+                <span>{{CVS.Unit_Price}}</span><br>
+                <span> {{CVS.Description}} </span>
+               
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Vitamins" id="Vitamins">
+         {% for Vitamins in Vitamins %}
+      
+            <div class="CAT">
+                <img src="{{Vitamins.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Vitamins.Name}} </span><br>
+                <span>{{Vitamins.Unit_Price}}</span><br>
+                <span> {{Vitamins.Description}} </span>
+               
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Minerals" id="Minerals">
+         {% for Minerals in Minerals %}
+      
+            <div class="CAT">
+                <img src="{{Minerals.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Minerals.Name}} </span><br>
+                <span>{{Minerals.Unit_Price}}</span><br>
+                <span> {{Minerals.Description}} </span>
+              
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Hormones" id="Hormones">
+         {% for Hormones in Hormones %}
+      
+            <div class="CAT">
+                <img src="{{Hormones.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Hormones.Name}} </span><br>
+                <span>{{Hormones.Unit_Price}}</span><br>
+                <span> {{Hormones.Description}} </span>
+                
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Anti_virals" id="Anti_virals">
+         {% for Anti_virals in Anti_virals %}
+      
+            <div class="CAT">
+                <img src="{{Anti_virals.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Anti_virals.Name}} </span><br>
+                <span>{{Anti_virals.Unit_Price}}</span><br>
+                <span> {{Anti_virals.Description}} </span>
+               
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Anti_infectives" id="Anti_infectives">
+         {% for Anti_infectives in Anti_infectives %}
+      
+            <div class="CAT">
+                <img src="{{Anti_infectives.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Anti_infectives.Name}} </span><br>
+                <span>{{Anti_infectives.Unit_Price}}</span><br>
+                <span> {{Anti_infectives.Description}} </span>
+             
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Anti_helmentics" id="Anti_helmentics">
+         {% for Anti_helmentics in Anti_helmentics %}
+      
+            <div class="CAT">
+                <img src="{{view.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Anti_helmentics.Name}} </span><br>
+                <span>{{Anti_helmentics.Unit_Price}}</span><br>
+                <span> {{Anti_helmentics.Description}} </span>
+                
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Maskuloskeletal" id="Maskuloskeletal">
+         {% for Maskuloskeletal in Maskuloskeletal %}
+      
+            <div class="CAT">
+                <img src="{{Maskuloskeletal.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Maskuloskeletal.Name}} </span><br>
+                <span>{{Maskuloskeletal.Unit_Price}}</span><br>
+                <span> {{Maskuloskeletal.Description}} </span>
+               
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+    <div class="Medical_Supplies" id="Medical_Supplies">
+         {% for Medical_Supplies in Medical_Supplies %}
+      
+            <div class="CAT">
+                <img src="{{Medical_Supplies.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Medical_Supplies.Name}} </span><br>
+                <span>{{Medical_Supplies.Unit_Price}}</span><br>
+                <span> {{Medical_Supplies.Description}} </span>
+                
+                
+            </div>
+        
+        {%  endfor %}
+    </div>
+          {% for Cosmotics in Cosmotics %}
+      
+            <div class="CAT" id="cosmotics">
+                <img src="{{Cosmotics.Image.url}}" alt="no image" style="width: 150px; height:100px; border-radius:10%">
+                <span> {{Cosmotics.Name}} </span><br />
+                <span>{{Cosmotics.Unit_Price}}</span><br />
+                <span> {{Cosmotics.Description}} </span>
+               
+                
+            </div>
+        
+        {%  endfor %}
+    
+    
+   </div>
+</div>
+<script>
+
+
+let CNS = document.getElementById("CNS");
+let ENT = document.getElementById("ENT");
+let Minerals = document.getElementById("Minerals");
+let Antivirus = document.getElementById("Antivirus");
+let Anti_virals = document.getElementById("Anti_virals");
+let Anti_infectives = document.getElementById("Anti_infectives");
+let Anti_helmentics = document.getElementById("Anti_helmentics");
+let cosmotic = document.getElementById("cosmotic");
+let Maskuloskeletal = document.getElementById("Maskuloskeletal");
+let Medical_Supplies = document.getElementById("Medical_Supplies");
+let Vitamins = document.getElementById("Vitamins");
+
+function btn_handler(){
+    let GIT = document.querySelector("CAT1");
+   return GIT.className = cat_git;
+
+}
+
+
+
+
+
+<!-- </script> -->
+</body>
+</html>

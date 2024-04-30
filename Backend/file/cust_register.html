@@ -1,0 +1,60 @@
+{% load static %}
+{% static 'images' as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registration</title>
+    <style>
+        .container{
+           display: grid;
+           grid-template-columns: repeat(2, minmax(250px, 1fr));
+           grid-gap:20px
+
+        }
+        .cust_handle{
+            margin: 100px auto;
+        }
+        .custfetch{
+            display: inline-block;
+            width: 130px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+{% include 'header.html' %}
+        <div class="cust_handle">
+
+                <form action="customerReg" method="POST" enctype="multipart/form-data">
+                   {% csrf_token %}
+                <fieldset style="width: 500px; margin:auto; border-radius:10px">
+                   
+                    <legend>Customer registration form</legend>
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                <div class="container">
+ 
+                    <div>Username: <input type="text" class="reg" name="username" value="{{username}}" placeholder="Username"> </div>
+                
+                    <div>Email: <input type="email" class="reg" name="email" value="{{email}}" placeholder="email"> </div>
+                    <div>Password: <input type="password" class="reg" name="password" placeholder="password"> </div>
+                     <div>photo: <small>{{photo}}</small> <input type="file" class="reg" name="photo" placeholder="photo"> </div>
+                   <div><a href="login">login</a> </div>
+               
+                    <div class="form-actions">
+                        <button class="btn btn-primary js-tooltip" name="submit">SignUp</button>
+                    </div>
+            </div>
+                </fieldset>
+                
+                </form>
+        </div>
+
+            
+</body>
+</html>

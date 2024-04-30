@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>advice</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@200;300&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background: #4b5c66;
+}
+.container {
+  --light-color: #fff;
+  height: 500px;
+  width: 400px;
+  background: var(--light-color);
+  position: fixed;
+  bottom: 10px;
+  right: 400px;
+  box-shadow: 0px 0px 15px 0px black;
+  border-radius: 20px;
+
+}
+.chat-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0px 30px;
+  background-color: #0388ab;
+  color: var(--light-color);
+  font-size: 1.5rem;
+ border-radius: 20px 20px 0 0;
+}
+
+.chat-header .logo {
+  height: 35px;
+  width: 35px;
+  box-shadow: 0px 0px 10px 0px black;
+}
+.chat-header img {
+  height: 100%;
+  width: 100%;
+}
+.chat-header .title {
+  padding-left: 10px;
+}
+.chat-body {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  align-items: flex-end;
+  overflow-y: auto;
+}
+.chat-input {
+   display: flex;
+  align-items: center;
+  border-top: 1px solid #ccc;
+ }
+.input-sec {
+  flex: 9;
+}
+.send {
+  flex: 1;
+  padding-right: 4px;
+}
+#txtInput {
+  height: 30px;
+  padding: 4px 5px;
+  border: none;
+  outline: none;
+  caret-color: black;
+  font-size: 1rem;
+  width: 50%;
+ }
+ .send-btn{
+  width: 60px;
+  margin-left: 130px;
+  cursor: pointer;
+ }
+
+.chatbot-message,
+.user-message {
+  padding: 2px 2px 2px 8px;
+  background: #388ab9;
+    width: max-content;
+  border-radius:8px 30px 8px 0px;
+}
+.chatbot-message {
+  background: #0652c0;
+  color: var(--light-color);
+  align-self: flex-start;
+  border-radius: 10px 10px 3px 10px;
+}
+.fetched{
+align-self: flex-start;
+
+width: max-content;
+background: #388ab9;
+color: white;
+border-radius:30px 8px 8px 0px;
+padding: 2px 2px 2px 7px;;
+}
+.fetchtime{
+  align-self: flex-start;
+ }
+.cust-containainer{
+  margin-top: 70px;
+  width: 400px;
+  height: 80px;
+  margin-left: 10px;
+  background: white;
+  border-radius: 20px;
+ }
+small{
+color: rgb(45, 4, 4);
+margin-top: 1px;
+}
+.cust-image{
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  float: left;
+}
+.cust-info{
+  height: 80px;
+border-top: 1px solid white;
+background: #388ab9;
+margin-top: 3px;
+border-radius: 10px;
+ }
+ .profile{
+  text-decoration: none;
+  color:wheat
+ }
+ 
+a{
+  text-decoration: none !important;;
+
+}
+.class{
+  display: none;
+}
+.msg_count{
+  padding: 5px;  
+  border-radius: 50%;
+  background: #fff;
+  color: #388ab9;
+  margin-left: 200px;
+ }
+    </style>
+</head>
+<body>
+  {% include 'header.html' %}
+    
+       <div class="body-container">
+      <div class="cust-containainer">
+        
+
+        <div >
+        {% for message in messages %}
+        <p> {{message}} </p>
+        {% endfor %}
+        {% for customer in customer %}
+       
+        {% if customer.profile.photo and user.get_username != customer.username %}
+            {% if user.profile.position == 'Customer' %}
+                {% if customer.profile.position == 'Pharmacist' %}
+                  <a href="{% url 'advice' customer.pk %}">
+                  <p class="cust-info">
+                  <img src="{{customer.profile.photo.url}}" alt="" class="cust-image">
+                  <small> {{customer.username}} </small><br>
+                  {% if customer.username == sender or reciever == customer.username %}
+                      {% if notice == 0 %}
+                         <small> {{message}} </small><br>
+                      {% else %}
+                         <small> {{message}} </small>
+                         <span class="msg_count">{{notice}}</span> <br>
+                      {% endif %}
+                  {% endif %}
+                <span>{{customer.profile.position}}</span> </small> 
+
+                    </p>
+                    </a>
+                {% endif %}
+                 
+            {% elif user.profile.position == 'System Admin' or  user.profile.position == 'Druggist' or user.profile.position == 'Cashier' or  user.profile.position == 'Branch Admin'  %}
+                {% if customer.profile.position != 'Customer' %}
+                <a href="{% url 'advice' customer.pk %}">
+                  <p class="cust-info">
+                  <img src="{{customer.profile.photo.url}}" alt="" class="cust-image">
+                  <small> {{customer.username}} </small><br>
+                  {% if customer.username == sender or reciever == customer.username %}
+                  {% if notice == 0 %}
+                  <small> {{message}} </small><br>
+                  {% else %}
+                  <small> {{message}} </small>
+                  <!-- <span class="msg_count">{{notice}}</span> <br> -->
+                  {% endif %}
+                {% endif %}
+            <span>{{customer.profile.position}}</span> </small> 
+
+                  </p>
+                  </a>
+                {% endif %}
+            {% else %}
+           
+            
+            <a href="{% url 'advice' customer.pk %}" id="hide-notice" >
+              <p class="cust-info">
+              <img src="{{customer.profile.photo.url}}" alt="" class="cust-image">
+              <small> {{customer.username}} </small><br>
+              {% if customer.username == sender or reciever == customer.username %}
+              {% if notice == 0 %}
+              <small> {{message}} </small><br>
+              {% else %}
+              <small > {{message}} </small>
+               <span class="msg_count">{{notice}}</span><br>
+               {% endif %}
+            {% endif %}
+        <small>{{customer.profile.position}}</small> 
+              </p>
+               
+            </a>
+            {% endif %}
+            
+        {% endif %}
+        
+    {%endfor%}
+    </div>
+        
+        <!-- <div>
+          <p class="cust-info">
+            <img src="{{custom.profile.photo.url}}" alt="" class="cust-image">
+           <small> {{custom.username}} </small><br />
+          <small> welcome </small>
+          </p>
+          
+
+      </div> -->
+
+      </div>
+     
+      <div class="container">
+        <div class="chat-header">
+          <div class="logo">
+            <img src="{{custom.profile.photo.url}}" alt="" class="cust-image">
+
+           
+          </div>
+          <div class="title">{{custom.username}} 
+             <span>
+               <form action="clear_msg" method="post" style="float: right; margin-right: -200px;">
+                  {% csrf_token %}
+                    <input type="hidden" name="clear" value="{{message}}">
+                    <button class="fa fa-trash" onclick="return confirm('Are you sure do you want to delete all?');"></button>
+
+                </form>
+            </span>
+         </div>
+ 
+          <!-- <img src="{{custom.profile.photo.url}}" alt="" class="cust-image1"> -->
+
+        </div>
+        <div class="chat-body">
+          {% for msg in msg %}
+                {% if msg.recv_name == user.username and msg.send_name == custom.username %}
+                    <small class="fetchtime"> {{msg.date|date:'Y-m-d'}} </small>
+                    <span class="fetched"> {{msg.msg}} </span>
+                    {% endif %}
+                {% if msg.send_name == user.username and msg.recv_name == custom.username %}
+                    <small class="fetch-time"> {{msg.date|date:'Y-m-d'}} </small>
+                    <p class="user-message"> {{msg.msg}} </p>
+               {% endif %}
+           {%endfor%}
+  
+          </div>
+          
+        <div class="chat-input">
+              <form action="{% url 'advice' custom.pk %}" method="POST">
+                  {% csrf_token %}
+                  <div class="input-sec"></div>
+                   {% if user.is_authenticated %}
+                   <input type="hidden" value="{{user.username}}" name="msg_sender" 
+                   readonly> {% endif %}
+                   
+                      <input type="hidden" id="txtInput" name="msg_reciever" id="msg_reciever" value="{{custom.username}}"/> 
+                      <input type="text" id="txtInput" name="message" placeholder="Type here..." autofocus />
+                      <button class="send-btn"><img src="../static/images/send.svg" alt="send" /></button>
+            
+              </form>
+        </div>
+     
+      </div>
+    </div>
+    <script>
+      
+      function notify(){
+        let a = document.getElementById('msg').style.display='none';
+      a.style.display="none";
+
+      }
+    </script>
+</body>
+</html>
