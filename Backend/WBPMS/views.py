@@ -786,7 +786,7 @@ def notification(request):
         sender = ""
         message=""
         id = ""
-        reciever = ""
+        reciever = "" 
         for sentmsg in sent_msg:
             if sentmsg.recv_name == request.user.username or sentmsg.send_name == request.user.username:
                 message = sentmsg.msg
@@ -807,12 +807,15 @@ def notification(request):
 
 def J_CreateBill(request):
     
-    if (request.user.is_authenticated and request.user.profile.position == 'Cashier') or (request.user.is_authenticated and request.user.profile.branch == 'Jemo'):
+    if (request.user.is_authenticated and request.user.profile.position == 'Cashier'):
         
         left_time = 0
         import datetime
-        bill =  JemoMedicine.objects.all().order_by('Name')
-
+        if request.user.profile.branch == 'Jemo':
+            bill =  JemoMedicine.objects.all().order_by('Name')
+        if request.user.profile.branch == 'Lebu':
+            bill =  LebuMedicine.objects.all().order_by('Name')
+            
         for v in bill:
             if v.Expired_Date:
                 exdate = v.Expired_Date
@@ -909,53 +912,86 @@ def J_CreateBill(request):
 
 
             if name is not None and creator is not None and price is not None and quantity is not None:
-                quant = JemoMedicine.objects.filter(Name=name)
-                checking = Bill.objects.filter(medicine_name=name,Branch=branch)
-                if checking:
-                    for check in checking:
-                        for q in quant:
-                            Bquantity = check.quantity + int(quantity)
-                            Btotal = check.price * Bquantity
-                            Juantity = q.Quantity - int(quantity)
-                            Bill.objects.filter(medicine_name=name).update(quantity=Bquantity, total=Btotal)
-                            JemoMedicine.objects.filter(Name=name).update(Quantity=Juantity)
-                else:
-                    tempbill = temp_bill.objects.all()
-                    for tempbill in tempbill:
-                        Bill.objects.create(medicine_name=tempbill.name, user_name=creator, price=tempbill.price, 
-                                quantity=tempbill.Quant,total=tempbill.total, Branch=branch).save()
-                        
-                        med = JemoMedicine.objects.filter(id=tempbill.id)
-                        for med in med:
-                            med_quan = med.Quantity - tempbill.Quant 
-                            if med_quan > 0:
-                                med.Quantity = med_quan
-                                JemoMedicine.objects.filter(id=tempbill.id).update(Quantity=med_quan)
-                                temp = temp_bill.objects.all()
-                                grd_total = 0
-                                for tempbill in temp:
-                                    grd_total += tempbill.total
-                                context = {'bill':bill, 'temp':temp}
-                                return render(request, "bill.html", context)  
-                            else:
-                                med.delete()
-                                temp = temp_bill.objects.all()
-                                context = {'bill':bill, 'temp':temp}
-                                return render(request, "bill.html", context)  
+                if request.user.profile.branch == 'Jemo':
+                    quant = JemoMedicine.objects.filter(Name=name)
+                    checking = Bill.objects.filter(medicine_name=name,Branch=branch)
+                    if checking:
+                        for check in checking:
+                            for q in quant:
+                                Bquantity = check.quantity + int(quantity)
+                                Btotal = check.price * Bquantity
+                                Juantity = q.Quantity - int(quantity)
+                                Bill.objects.filter(medicine_name=name).update(quantity=Bquantity, total=Btotal)
+                                JemoMedicine.objects.filter(Name=name).update(Quantity=Juantity)
+                    else:
+                        tempbill = temp_bill.objects.all()
+                        for tempbill in tempbill:
+                            Bill.objects.create(medicine_name=tempbill.name, user_name=creator, price=tempbill.price, 
+                                    quantity=tempbill.Quant,total=tempbill.total, Branch=branch).save()
                             
+                            med = JemoMedicine.objects.filter(id=tempbill.id)
+                            for med in med:
+                                med_quan = med.Quantity - tempbill.Quant 
+                                if med_quan > 0:
+                                    med.Quantity = med_quan
+                                    JemoMedicine.objects.filter(id=tempbill.id).update(Quantity=med_quan)
+                                    temp = temp_bill.objects.all()
+                                    grd_total = 0
+                                    for tempbill in temp:
+                                        grd_total += tempbill.total
+                                    context = {'bill':bill, 'temp':temp}
+                                    return render(request, "bill.html", context)  
+                                else:
+                                    med.delete()
+                                    temp = temp_bill.objects.all()
+                                    context = {'bill':bill, 'temp':temp}
+                                    return render(request, "bill.html", context)  
+
+                if request.user.profile.branch == 'Lebu':
+                    quant = LebuMedicine.objects.filter(Name=name)
+                    checking = Bill.objects.filter(medicine_name=name,Branch=branch)
+                    if checking:
+                        for check in checking:
+                            for q in quant:
+                                Bquantity = check.quantity + int(quantity)
+                                Btotal = check.price * Bquantity
+                                Juantity = q.Quantity - int(quantity)
+                                Bill.objects.filter(medicine_name=name).update(quantity=Bquantity, total=Btotal)
+                                LebuMedicine.objects.filter(Name=name).update(Quantity=Juantity)
+                    else:
+                        tempbill = temp_bill.objects.all()
+                        for tempbill in tempbill:
+                            Bill.objects.create(medicine_name=tempbill.name, user_name=creator, price=tempbill.price, 
+                                    quantity=tempbill.Quant,total=tempbill.total, Branch=branch).save()
+                            
+                            med = LebuMedicine.objects.filter(id=tempbill.id)
+                            for med in med:
+                                med_quan = med.Quantity - tempbill.Quant 
+                                if med_quan > 0:
+                                    med.Quantity = med_quan
+                                    LebuMedicine.objects.filter(id=tempbill.id).update(Quantity=med_quan)
+                                    temp = temp_bill.objects.all()
+                                    grd_total = 0
+                                    for tempbill in temp:
+                                        grd_total += tempbill.total
+                                    context = {'bill':bill, 'temp':temp}
+                                    return render(request, "bill.html", context)  
+                                else:
+                                    med.delete()
+                                    temp = temp_bill.objects.all()
+                                    context = {'bill':bill, 'temp':temp}
+                                    return render(request, "bill.html", context)  
+                                
                         
                 temp = temp_bill.objects.all()
-                # bill = Medicine.objects.all()
                 context = {'bill':bill, 'temp':temp}
                 return render(request, "bill.html", context)
             else:
-                # bill = Medicine.objects.all()
                 context = {'bill':bill}
                 return render(request, "bill.html", context)
         else:    
             grd_total= 0
             tempbill = temp_bill.objects.all()
-            # bill = Medicine.objects.all()
             for tempbill in tempbill:
                     grd_total += tempbill.total
             
@@ -1280,7 +1316,39 @@ def Medical_Supplies(request):
     return render(request,'../templates/category/Medical_Supplies.html',{'Medical_Supplies':Medical_Supplies})
 
 
-def addUser(request):
+
+def search_user(request, id):
+    if request.user.is_authenticated and request.user.profile.position == 'System Admin':
+        users = User.objects.all().order_by('username')
+        user_no = User.objects.all().count()
+        no_of_customers = Profile.objects.filter(position="Customer").all().count()
+        no_of_users = user_no - no_of_customers
+        feedback = Feedback.objects.all().order_by('date')
+     
+        search_user = User.objects.get(pk=id)
+        context = {'users':users, 'feedback':feedback, 'no_of_customers':no_of_customers, 'no_of_users':no_of_users,'search':search_user}
+        return render(request,'userUpdate.html', context)
+    else:
+        return redirect('login')
+    
+        
+def admin_dashboard(request):
+    if request.user.is_authenticated and request.user.profile.position == 'System Admin':
+
+        users = User.objects.all().order_by('username')
+        user_no = User.objects.all().count()
+        no_of_customers = Profile.objects.filter(position="Customer").all().count()
+        no_of_users = user_no - no_of_customers
+
+        feedback = Feedback.objects.all().order_by('date')
+        success = True
+        context = {'users':users, 'feedback':feedback, 'no_of_customers':no_of_customers, 'no_of_users':no_of_users, 'success':success}
+        if 'userDelete' in request.POST:
+                userid = request.POST.get('select_user')
+                User.objects.filter(pk=userid).delete()
+                Profile.objects.filter(user_id=userid).delete()
+                return render(request,'dashboard.html', context)
+    
         if 'addUser' in request.POST:
             fname = request.POST.get('fname')
             fname = fname.upper()
@@ -1288,7 +1356,6 @@ def addUser(request):
             lname = lname.upper()
             username = request.POST.get('username')
             email = request.POST.get('email')
-            photo = request.FILES.get('user_photo')
             branch = request.POST.get('branch')
             tele = request.POST.get('tele')
             gender = request.POST.get('gender')
@@ -1297,49 +1364,39 @@ def addUser(request):
             password = request.POST.get('password')
             conf_password = request.POST.get('confirm_password')
             success = True
+            added = True
  
-            context = {'fname': fname,"lname":lname,"username":username,"password":password, "email":email,"photo":photo,
-                            "branch":branch,"tele":tele, "gender":gender, "salary":salary, "position":position}
+            context = {'fname': fname,"lname":lname,"username":username,"password":password, "email":email,
+                            "branch":branch,"tele":tele, "gender":gender, "salary":salary, "position":position, 
+                            "users":users,"user_no":user_no,"no_of_customers":no_of_customers, "no_of_users":no_of_users,"feedback":feedback,
+                            'added':added}
             if User.objects.filter(username=username).exists():
                 messages.success(request, "Username already exists")
                 return render(request, 'addUser.html', context)
-            elif password.__len__() < 6 and password.__len__() > 12:
-                messages.success(request, "Password should between 6 and 12 characters")
+            elif password.__len__() < 8:
+                messages.success(request, "Password should be more than 8 characters")
                 return render(request, 'addUser.html', context)
             elif password != conf_password:
                 messages.success(request, "Password does not match")
                 return render(request, 'addUser.html', context)
             elif tele.__len__() != 12:
                 messages.success(request, "enter the correct phone number")
-                return render(request, 'addUser.html', context)
-
-            
+                return render(request, 'addUser.html', context)    
+            elif Profile.objects.filter(tele=tele).exists():
+                messages.success(request, "phone number already exists")
+                return render(request, 'addUser.html', context)   
+            elif User.objects.filter(email=email).exists():
+                messages.success(request, "email already exists")
+                return render(request, 'addUser.html', context)            
             else:
-            
                 password = make_password(password)
                 User.objects.create(username=username, last_name=lname, first_name=fname, email=email, password=password,
                                                     is_superuser='False', is_staff='False', is_active='True').save()
                 Profile.objects.create(user=User.objects.get(username=username), tele=tele,
                                     branch=branch, gender=gender, salary=salary, position=position).save()
-                messages.success(request, "Successfully added",)
-                return render(request, 'addUser.html', {'success':success})
+                messages.success(request, "Successfully added")
+                return render(request,'addUser.html', context)
             
-        else:
-            return render(request,'addUser.html')
-
-def updateUsers(request):
-    
-    if request.user.is_authenticated and request.user.is_superuser or request.user.profile.position == 'Super Admin':
-        success = True
-        view_users = User.objects.all().order_by('username')
-        user_no = User.objects.all().count()
-        no_of_customers = Profile.objects.filter(position="Customer").all().count()
-        no_of_users = user_no - no_of_customers
-
-        feedback = Feedback.objects.all().order_by('date')
-     
-        context = {'view_users':view_users, 'feedback':feedback, 'no_of_customers':no_of_customers, 'no_of_users':no_of_users}
-        
         if 'userUpdate' in request.POST:
             userid = request.POST.get('userid')
             fname = request.POST.get('firstname')
@@ -1350,109 +1407,37 @@ def updateUsers(request):
             gender = request.POST.get('gender')
             salary = request.POST.get('salary')
             position = request.POST.get('position')
+            updated = True
+
             
+            context = {'fname': fname,"lname":lname, "email":email,
+                            "branch":branch,"tele":tele, "gender":gender, "salary":salary, "position":position, 
+                            "users":users,"user_no":user_no,"no_of_customers":no_of_customers, "no_of_users":no_of_users,"feedback":feedback,
+                             'updated':updated}
+
             phone = len(tele)
-            if phone == 12:#+251978481098
-                User.objects.filter(pk=userid).update(last_name=lname, first_name=fname, email=email)
-                Profile.objects.filter(user_id=userid).update(tele=tele, branch=branch, gender=gender, salary=salary, position=position)
-                # messages.success(request, "Successfully updated")
-                return render(request,'dashboard.html', context)
-            else:   
-                messages.success(request, "enter the correct phone number")
-                return render(request,'userUpdate.html')
-        
-        if 'userDelete' in request.POST: 
-            userid = request.POST.get('userid')
-            User.objects.filter(pk=userid).delete()
-            Profile.objects.filter(user_id=userid).delete()
-            messages.success(request, "Successfully deleted")
-            return render(request,'userUpdate.html', {'success':success})
-
-        else:
-            return render(request,'userUpdate.html')
-  
-    else:
-        redirect('login')
-        
-def deleteUser(request):
-    if request.method == 'POST':
-            select_user = request.POST.get('select_user')
-            User.objects.filter(pk=select_user).delete()
-            return render(request,'dashboard.html')
-    else:
-        return render(request,'dashboard.html')
-
-def search_dashboard(request, id):
-    if request.user.is_authenticated and request.user.is_superuser or request.user.profile.position == 'Super Admin':
-        search_user = User.objects.get(pk=id)
-        context = {'search':search_user}
-        return render(request,'userUpdate.html', context)
-    else:
-        return redirect('login')
-    
-        
-def admin_dashboard(request):
-    if request.user.is_authenticated and request.user.is_superuser or request.user.profile.position == 'Super Admin':
-
-        view_users = User.objects.all().order_by('username')
-        user_no = User.objects.all().count()
-        no_of_customers = Profile.objects.filter(position="Customer").all().count()
-        no_of_users = user_no - no_of_customers
-
-        feedback = Feedback.objects.all().order_by('date')
-     
-        context = {'view_users':view_users, 'feedback':feedback, 'no_of_customers':no_of_customers, 'no_of_users':no_of_users}
-        if 'userDelete' in request.POST:
-                userid = request.POST.get('select_user')
-                User.objects.filter(pk=userid).delete()
-                Profile.objects.filter(user_id=userid).delete()
-                messages.success(request, "Successfully deleted")
-                return render(request,'dashboard.html', context)
-        if 'addUser' in request.POST:
-            fname = request.POST.get('fname')
-            lname = request.POST.get('lname')
-            username = request.POST.get('username')
-            email = request.POST.get('email')
-            photo = request.POST.get('photo')
-            branch = request.POST.get('branch')
-            tele = request.POST.get('tele')
-            gender = request.POST.get('gender')
-            salary = request.POST.get('salary')
-            position = request.POST.get('position')
-            password = request.POST.get('password')
-            conf_password = request.POST.get('confirm_password')
-  
-            context = {'fname': fname,"lname":lname,"username":username,"password":password, "email":email,"photo":photo,
-                            "branch":branch,"tele":tele, "gender":gender, "salary":salary, "position":position}
-            if User.objects.filter(username=username).exists():
-                messages.success(request, "Username already exists")
-                return render(request, 'dashboard.html')
-            elif password.__len__() < 6 and password.__len__() > 12:
-                messages.success(request, "Password should between 6 and 12 characters")
-                return render(request, 'dashboard.html')
-            elif password != conf_password:
-                messages.success(request, "Password does not match")
-                return render(request, 'dashboard.html')
-            elif tele.__len__() != 13:
-                messages.success(request, "Tele length should be 9 ")
-                return render(request, 'dashboard.html')
-            
-            
-            else:
-            
-                password = make_password(password)
-                User.objects.create(username=username, last_name=lname, first_name=fname, email=email, password=password,
-                                                    is_superuser='False', is_staff='False', is_active='True').save()
-                Profile.objects.create(user=User.objects.get(username=username),photo=photo, tele=tele,
-                                    branch=branch, gender=gender, salary=salary, position=position).save()
-                messages.success(request, "Successfully added")
-                return render(request,'dashboard.html')
-            
-        else:
-            return render(request,'dashboard.html', context)
-
+            if fname is not None and lname is not None and email is not None and branch is not None and salary is not None and position is not None:
+                if phone != 12:
+                    messages.success(request, "phone number length must be 12")
+                    return render(request, 'userUpdate.html', context) 
+                # elif Profile.objects.filter(tele=tele).exists():
+                #     messages.success(request, "phone number already exists")
+                #     return render(request, 'userUpdate.html', context) 
+                # elif User.objects.filter(email=email).exists():
+                #     messages.success(request, "email already exists")
+                #     return render(request, 'userUpdate.html', context)  
+                else:#+251978481098
+                    User.objects.filter(pk=userid).update(last_name=lname, first_name=fname, email=email)
+                    Profile.objects.filter(user_id=userid).update(tele=tele, branch=branch, gender=gender, salary=salary, position=position)
+                   
+                    messages.success(request, "Successfully updated")
+                    return render(request, 'userUpdate.html', context)
+            else: 
+                messages.error(request, "Please fill all fields with")
+                return render(request,'userUpdate.html', context)
  
-    
+        return render(request,'dashboard.html', context)
+
     else:
         return redirect('login')
 
@@ -1465,7 +1450,6 @@ def feedback(request):
         if feedback != "":
             Feedback.objects.create(message=feedback, sender=sender).save()
             messages.info(request, "Thank you for your feedback!!!")
-            # , {'feedback': feedback}
             return render(request, 'contactUs.html')
         else:
             return render(request, 'contactUs.html')
@@ -1485,68 +1469,54 @@ def clear_msg(request):
     else:
         return redirect('login')
     
-def video_url(request):
-    video = Medicine.objects.all()
-    return render(request, 'pro.html', {'video': video})
 
-from sms import send_sms
 
-def smsMesssage():
-   userMessage = Profile.objects.filter(position='Druggist').all()
-   for userMessage in userMessage:
-        tele = str(userMessage.tele)
-        send_sms(
-            'there is expired drug check it know',
-            '0954874935',
-            tele,
-            fail_silently=False
-        )
-   return render(request, 'report.html')
+
 
 
 #####SENDING SMS MESSAGES #####
-import datetime
-from twilio.rest import Client
+# import datetime
+# from twilio.rest import Client
 
-drug1 = Medicine.objects.all()
-drug2 = LebuMedicine.objects.all()
-drug3 = JemoMedicine.objects.all()
+# drug1 = Medicine.objects.all()
+# drug2 = LebuMedicine.objects.all()
+# drug3 = JemoMedicine.objects.all()
 
-for drug1 in drug1:
-    date1 = datetime.datetime.now()
-    date1 = int(date1.strftime('%Y%m%d'))
-    exdate1 = drug1.Expired_Date
-    # exdate = parse_date(exdate)
-    exdate1 = int(exdate1.strftime('%Y%m%d'))
+# for drug1 in drug1:
+#     date1 = datetime.datetime.now()
+#     date1 = int(date1.strftime('%Y%m%d'))
+#     exdate1 = drug1.Expired_Date
+#     # exdate = parse_date(exdate)
+#     exdate1 = int(exdate1.strftime('%Y%m%d'))
     
-for drug2 in drug2:
-    date2 = datetime.datetime.now()
-    date2 = int(date2.strftime('%Y%m%d'))
-    exdate2 = drug2.Expired_Date
-    # exdate = parse_date(exdate)
-    exdate2 = int(exdate2.strftime('%Y%m%d'))
+# for drug2 in drug2:
+#     date2 = datetime.datetime.now()
+#     date2 = int(date2.strftime('%Y%m%d'))
+#     exdate2 = drug2.Expired_Date
+#     # exdate = parse_date(exdate)
+#     exdate2 = int(exdate2.strftime('%Y%m%d'))
 
-for drug3 in drug3:
-    date3 = datetime.datetime.now()
-    date3 = int(date3.strftime('%Y%m%d'))
-    exdate3 = drug3.Expired_Date
-    # exdate = parse_date(exdate)
-    exdate3 = int(exdate3.strftime('%Y%m%d'))
-if date1 < exdate1 or date2 < exdate2 or date3 < exdate3:
-    user = Profile.objects.filter(position="Druggist")
-    for user in user:
-        code = "+" + user.tele
-        account_sid = 'ACd07b49824d53ad1d9f0618657107e4b9'
-        auth_token = 'db707cd2399c42336917c876668958fc'
+# for drug3 in drug3:
+#     date3 = datetime.datetime.now()
+#     date3 = int(date3.strftime('%Y%m%d'))
+#     exdate3 = drug3.Expired_Date
+#     # exdate = parse_date(exdate)
+#     exdate3 = int(exdate3.strftime('%Y%m%d'))
+# if date1 < exdate1 or date2 < exdate2 or date3 < exdate3:
+#     user = Profile.objects.filter(position="Druggist")
+#     for user in user:
+#         code = "+" + user.tele
+#         account_sid = 'ACd07b49824d53ad1d9f0618657107e4b9'
+#         auth_token = 'db707cd2399c42336917c876668958fc'
 
-        client = Client(account_sid, auth_token)
+#         client = Client(account_sid, auth_token)
 
-        message = client.messages.create(
-        from_='+12033072788',#12033072788
-        body = 'Hay! there is expired drug. Please check it now!',
-        to=code)
+#         message = client.messages.create(
+#         from_='+12033072788',#12033072788
+#         body = 'Hay! there is expired drug. Please check it now!',
+#         to=code)
 
-    print(message.sid)
+#     print(message.sid)
              
 ############rest_framework##########
 from rest_framework import status # type: ignore
@@ -1576,11 +1546,54 @@ class LebuMedicineList(APIView):
         return Response(serializer.data)
 
 
-class UserList(APIView):
-    def get(self,request):
-        user =  User.objects.all()
-        serializer =  userSerializer(user, many=True)
-        return Response(serializer.data)
+# class UserList(APIView):
+#     def get(self,request):
+#         user =  User.objects.all()
+#         serializer =  UserSerializer(user, many=True)
+#         return Response(serializer.data)
+#     def post(self,request):
+ 
+#         serializer = UserSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else: 
+#             return Response(serializer.errors)
+#     def put(self, request, pk):
+#         user = User.objects.get(pk=pk)
+#         serializer = UserSerializer(user, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+#     def delete(self, request, pk):
+#          user = User.objects.get(pk=pk)
+#          user.delete()
+#          return Response({"delete":"deleted successfully!!!"}) 
+
+# class AddUser(APIView):
+#         def post(self,request):
+#             self.http_method_names.append("GET")
+
+#             serializer = UserSerializer(data=request.data)
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response(serializer.data)
+#             else: 
+#                 return Response(serializer.errors)
+
+# class UpdateUser(APIView):            
+#     def put(self, request, pk):
+#         self.http_method_names.append("GET")
+
+        # user = User.objects.get(pk=pk)
+        # serializer = UserSerializer(user, many=False)
+        
+        # return Response(serializer.data)
+     
+            
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User

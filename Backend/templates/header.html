@@ -25,6 +25,7 @@
             box-shadow: var(--box-shadow);
             width: 100vw;
             overflow-x: hidden;
+            font-style:serif ;
         }
 /*staart left header */
 header .left{
@@ -70,7 +71,15 @@ header section ul li a.active,header section ul li a:hover{
     color: #27ae60;
  }
 
- 
+ .notification {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 1px 5px;
+  cursor: pointer;
+  margin: 0px 5px;
+ }
 
 /*right header start */
 
@@ -78,8 +87,8 @@ header .right{
     display: flex;
     justify-content: flex-end;
     padding-right: 25px;
-    max-width: 35vw;
-}
+    align-items: center;
+ }
  i{
     margin-left: 10px;
     color:white;
@@ -121,18 +130,51 @@ header .right{
     display: none;
 }
 
-@media screen and (max-width: 900px ) {
+.search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+ }
+
+.search-container {
+    position: relative;
+    display: flex;
+}
+
+.search-container input[type="text"] {
+     padding-right: 30px; /* Ensure space for the button */
+    border: 1px solid;
+    border-radius: 4px;
+    height: 30px;
+}
+
+.search-container button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 2px;
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 980px ) {
     header{
         overflow-x: hidden;
         display: flex;
         flex-direction: row;
-        justify-content: start;
+        justify-content: space-between;
+       
 
         
     }
     header .left{
     font-size: 20px;
     padding-left: 0;
+    font-size: 16px;
      
     }
     header .center  {
@@ -149,14 +191,16 @@ header .right{
 
     }
     header .center ul li a {
-    font-size: 16px;
+    font-size: 12px;
      }
    
     header .right{
          right: 0;
     }
+    header .right .username{
+        display: none;
+    }
    
-
     
 }
 @media screen and (max-width: 830px ) {
@@ -168,34 +212,39 @@ header .right{
         justify-content: space-between;
      }
     header .left{
-    font-size: 22px;
-    width: 22%;
+    font-size: 18px;
+    width: 33%;
     }
     header .center  {
-    width: 3%;
-    display: none;
+     display: none;
     }
+    
     header .right{
-        width: 63%;
+        width: 65%;
     }
+   
+  
     #menu{
         display: block;
     }
-
+     
     
 }
 .logout{
     text-decoration: none;
     border: 1px solid white;
-    padding: 1px 5px;
+    margin-left: 15px;
+    padding: 1px 4px;
+    font-size: small;
     border-radius: 2.5px;
-     color: white;
-     background: red;
+     color: red;
+     background: white;
+     
 
 }
 .logout:hover{
-    background: transparent;
-    color:red;
+    background: red;
+    color:white;
 }
 .login:hover{
     background: transparent;
@@ -209,8 +258,10 @@ header .right{
 
     border-radius: 2.5px;
      color: white;
-     padding: 1px 8px;
+     padding: 2px 8px;
 }
+
+
 
     </style>
 <header>    
@@ -259,18 +310,19 @@ header .right{
         </ul>
     </section>
     <section class="right">
-        <span> 
+        <span  > 
             {% if user.profile.position != "System Admin"%}
-            <form action="search" method="GET">
-                <input type="text" value="{{drug_name}}" placeholder="Search here..." name="search" style="border: 1px solid; border-radius:4px; padding:0 !important; margin:0;"/>
-                <button type="submit" class="fa fa-search" id="search-icon"></button>
-            {% endif %}    
+            <form action="search" method="GET"class="search-form">
+                <div class="search-container">
+                    <input type="text" value="{{drug_name}}" placeholder="Search here..." name="search" />
+                    <button type="submit" class="fa fa-search"></button>
+                </div>{% endif %}    
             </form>
            
         </span>
       
                 {% if user.profile.position == "Pharmacist" or user.profile.position == "Customer"  %}
-                    <a href="chat" class="notification">            
+                    <a href="http://127.0.0.1:8000/chat" class="notification">            
                         <i class="fa fa-bell">{{notice}}</i>
                     </a>
 
@@ -280,7 +332,7 @@ header .right{
                       {% if user.profile.branch == "Head Office" %}
                            <li style="color: #27ae60; ">{{user.username}} : H.Office </li>
                       {% else %}
-                    <li style="color: #27ae60; ">{{user.username}} : {{user.profile.branch}} </li>{% endif %}
+                    <li class="username" style="color: #27ae60; ">{{user.username}} : {{user.profile.branch}} </li>{% endif %}
                             
                          {% else %}  <li style="color: #27ae60; ">{{user.username}} </li> {% endif %}
                     <li><a href="/logout" class="logout">logout</a></li>

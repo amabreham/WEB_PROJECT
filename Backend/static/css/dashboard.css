@@ -1,0 +1,434 @@
+   body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+ 
+/* update user */
+
+#update_user {
+    margin: 20px;
+}
+
+#update_user h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#update_user table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#update_user th,
+#update_user td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#update_user th {
+    background-color: #f2f2f2;
+}
+
+#update_user tr:hover {
+    background-color: #f2f2f2;
+}
+
+#update_user td:last-child {
+    text-align: center;
+}
+
+#update_user button {
+    border: none;
+    background-color: transparent;
+    color: rgb(7, 155, 20);
+    cursor: pointer;
+}
+
+#update_user button:hover {
+    text-decoration: underline;
+}
+
+ /* update user table*/
+
+
+ /* update user and add user*/
+
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sub-container {
+    flex-basis: 48%;  
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+ 
+
+.password-input-container {
+    position: relative;
+}
+
+.password-input-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* Optional: Style radio buttons */
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Optional: Style error messages */
+h3 {
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.add-user-btn {
+    margin-top: 30px;
+    background-color: #192a56;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-user-btn:hover {
+    background-color: #0C2461;
+}
+
+.exit {
+    margin-top: 30px;
+
+    background-color: #f44336;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.exit:hover {
+    background-color: #d32f2f;
+}
+
+ 
+
+
+
+
+
+  /* eeeeeeeeeeeennnnnnnnnnnnnnnnnnnndddddddddddddddddddddddddddddddddddd */
+
+
+
+
+
+
+
+ /* view user */
+#view_user {
+    margin: 20px;
+}
+
+#view_user h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#view_user .no_of_users {
+    font-size: 18px;
+}
+
+#view_user table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#view_user th,
+#view_user td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#view_user th {
+    background-color: #f2f2f2;
+}
+
+#view_user tr:hover {
+    background-color: #f2f2f2;
+}
+
+#view_user td:last-child {
+    text-align: center;
+    font-size: 10px;
+}
+
+/* view user */
+
+/* delete user */
+#delete_user {
+    margin: 20px;
+}
+
+#delete_user h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#delete_user table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#delete_user th,
+#delete_user td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#delete_user th {
+    background-color: #f2f2f2;
+}
+
+#delete_user tr:hover {
+    background-color: #f2f2f2;
+}
+
+#delete_user td:last-child {
+    text-align: center;
+}
+
+#delete_user button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: rgb(202, 4, 4);
+}
+
+#delete_user button:hover {
+    text-decoration: underline;
+}
+
+/* delete user */
+
+/* view customer */
+#view_customer {
+    margin: 20px;
+}
+
+#view_customer h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#view_customer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#view_customer th,
+#view_customer td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#view_customer th {
+    background-color: #f2f2f2;
+}
+
+#view_customer tr:hover {
+    background-color: #f2f2f2;
+}
+
+/* view customer */
+
+ .header {
+    background-color: #192a56;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+}
+
+.main-container {
+    display: flex;
+    height: 100vh;
+    overflow: scroll;
+}
+
+#sidebar {
+    min-width: 320px;
+    background-color: #192a56;
+    color: #ffffff;
+    padding-top: 20px;
+    position: relative;
+    margin-top: 40px;
+    height: 100vh;
+ }
+
+#content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+
+.menu-item {
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 25px 0 0 25px;
+    transition: background-color 0.3s ease;
+    display: block;
+    color: #ffffff;
+ 
+    
+}
+
+.menu-item.active {
+    background-color: #0C2461;
+}
+
+.menu-item i {
+    margin-right: 10px;
+    color: #ffffff;
+}
+
+.menu-item:hover {
+     color: #ffffff; /* Adjusted */
+}
+
+.dropdown-content {
+    display: none;
+    padding-left: 10px;
+    padding-top: 10px;
+    gap: 5px;
+    color: white;
+ }
+ 
+
+.dropdown-item {
+    cursor: pointer;
+    padding: 5px 20px; /* Adjusted */
+    color: white;
+ }
+
+#dynamic-content {
+    margin-top: 25px;
+    padding: 10px 5px;
+}
+
+
+
+
+/* view feedback */
+
+
+/* Overall container styling */
+#view_customer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Heading styling */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+/* Table row styling */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+ 
+/* view feedback */
+
+/* add user content */
+ 
+
+
+.side-logout{
+    color: white;
+    
+}
+.side-logout:hover{
+    color: rgb(221, 8, 8);
+
+}
+
+
+
+
+
+
+
+
+                    
+
+                    
+                   

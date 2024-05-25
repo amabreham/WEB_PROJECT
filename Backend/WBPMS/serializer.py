@@ -28,16 +28,15 @@ class profileSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class userSerializer(serializers.ModelSerializer):
-    tele = serializers.CharField(source='profile.tele')
-    branch = serializers.CharField(source='profile.branch')
-    class Meta:
-        model = User
-        fields = "__all__"
+# class userSerializer(serializers.ModelSerializer):
+#     tele = serializers.CharField(source='profile.tele')
+#     branch = serializers.CharField(source='profile.branch')
+#     class Meta:
+#         model = User
+#         fields = "__all__"
         
 class ProfileSerializer(serializers.ModelSerializer):
    
-
     class Meta:
         model = Profile
         fields = "__all__"

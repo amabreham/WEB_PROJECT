@@ -14,7 +14,7 @@ urlpatterns = [
     path('reset/done/',pass_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
     path('reset',pass_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
 
-#######drug management#########
+####### drug management #########
     path('', views.index, name='index'),
     path('manageDrug', views.manageDrug, name="manageDrug"),
     path('search', views.search, name='search'),
@@ -45,14 +45,10 @@ urlpatterns = [
 ########### Dashboard ##########
 
     path('dashboard', views.admin_dashboard, name='admin_dashboard'),
-    path('search_dashboard/<str:id>', views.search_dashboard, name='search_dashboard'),
-    path('updateUsers', views.updateUsers, name='updateUsers'),
-    path('deleteUser', views.deleteUser, name='deleteUser'),
-    path('addUser', views.addUser, name='addUser'),
-
+    path('search_user/<str:id>', views.search_user, name='search_user'),
+   
 ############customer############
-    path('customerReg', views.customerReg, name='customerReg'),
-     
+    path('customerReg', views.customerReg, name='customerReg'),    
     path("feedback", views.feedback, name="feedback"),
     # path('delete_drug', views.delete_drug, name='delete_drug'),
 
@@ -87,7 +83,6 @@ urlpatterns = [
     path("add_druginLebu", views.add_druginLebu, name="add_druginLebu"),
     path("add_druginJemo", views.add_druginJemo, name="add_druginJemo"),
     path("add_druginMainBranch", views.add_druginMainBranch, name="add_druginMainBranch"),
-    path("pro", views.video_url, name="pro"),
  
 
 
@@ -96,6 +91,11 @@ urlpatterns = [
     path('medicine-list/', MedicineList.as_view()),
     path('J_medicine-list/', JemoMedicineList.as_view()),
     path('L_medicine-list/', LebuMedicineList.as_view()),
+    # path('user-list/', UserList.as_view()),
+    # path('user-add/', AddUser.as_view()),
+
+
+
 
 #     path('create/', CreateMedicine.as_view()),
 #     path('medicine/<int:pk>', Medicines.as_view()),
@@ -105,8 +105,7 @@ urlpatterns = [
 #     # path('<str:pk>', CustomerChange.as_view()),
 
 #   ######User API#############
-    path('user-list/', UserList.as_view()),
-#   path('user/<int:pk>', UserChange.as_view()),
+ #   path('user/<int:pk>', UserChange.as_view()),
 
     path('create_user/', UserCreateView.as_view(), name='create_user'),
 

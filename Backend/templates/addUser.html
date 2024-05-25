@@ -1,673 +1,495 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-  <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-a {
-  text-decoration: none;
-}
-
-li {
-  list-style: none;
-}
-
-:root {
-  --poppins: 'Poppins', sans-serif;
-  --lato: 'Lato', sans-serif;
-
-  --light: #F9F9F9;
-  --blue: #3C91E6;
-  --light-blue: #CFE8FF;
-  --grey: #eee;
-  --dark-grey: #AAAAAA;
-  --dark: #342E37;
-  --red: #DB504A;
-  --yellow: #FFCE26;
-  --light-yellow: #FFF2C6;
-  --orange: #FD7238;
-  --light-orange: #FFE0D3;
-}
-
-html {
-  overflow-x: hidden;
-}
-
-body.dark {
-  --light: #0C0C1E;
-  --grey: #060714;
-  --dark: #FBFBFB;
-}
-
-body {
-  background: var(--grey);
-  overflow-x: hidden;
-}
-
-
-
-
-
-/* SIDEBAR */
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 280px;
-  height: 100%;
-  background: var(--light);
-  z-index: 2000;
-  font-family: var(--lato);
-  transition: .3s ease;
-  overflow-x: hidden;
-  scrollbar-width: none;
-}
-#sidebar::--webkit-scrollbar {
-  display: none;
-}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static '../static/css/dashboard.css' %}">
+    <style>
  
-#sidebar .brand {
-  font-size: 24px;
-  font-weight: 700;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  color: white;
-  position: sticky;
-  top: 0;
-  left: 0;
-  background: #192a56;
-  z-index: 500;
-  padding-bottom: 20px;
-  box-sizing: content-box;
- 
-}
 
- 
-#sidebar .brand .bx {
-  min-width: 60px;
-  display: flex;
-  justify-content: center;
- }
-#sidebar .brand .text{
- padding-top:20px;
- padding-left: 20px;
- }
-#sidebar .side-menu {
-   width: 100%;
-  margin-top: 48px;
-  position: relative;   
-
-}
-
- 
-#sidebar .side-menu li {
-    
-  height: 48px;
-  background: transparent;
-  margin-left: 6px;
-   border-radius: 48px 0 0 48px;
-  padding: 4px;
-}
-#sidebar .side-menu li.active {
-  background: var(--grey);
-  position: relative;
-}
-#sidebar .side-menu li.active::before {
-  content: '';
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  top: -40px;
-  right: 0;
-  box-shadow: 20px 20px 0 var(--grey);
-  z-index: -1;
-}
-#sidebar .side-menu li.active::after {
-  content: '';
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  bottom: -40px;
-  right: 0;
-  box-shadow: 20px -20px 0 var(--grey);
-  z-index: -1;
-}
-#sidebar .side-menu li a {
-  width: 100%;
-  height: 100%;
-  background: var(--light);
-  display: flex;
-  align-items: center;
-  border-radius: 48px;
-  font-size: 16px;
-  color: var(--dark);
-  white-space: nowrap;
-  overflow-x: hidden;
-}
- 
-#sidebar .side-menu.top li.active a {
-  color: var(--blue);
-}
-#sidebar.hide .side-menu li a {
-  width: calc(48px - (4px * 2));
-  transition: width .3s ease;
-}
-#sidebar .side-menu li a.logout {
-  color: var(--red);
-}
-#sidebar .side-menu.top li a:hover {
-  color: var(--blue);
-}
-#sidebar .side-menu li a .bx {
-  min-width: calc(60px  - ((4px + 6px) * 2));
-  display: flex;
-  justify-content: center;
-}
-/* SIDEBAR */
-
-.nav{
-    background-color:#192a56;
-    height: 60px;
+/* Form styling */
+#form {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    flex-direction: column;
+}
+
+/* Headings */
+h1 {
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Input fields styling */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Radio button styling */
+input[type="radio"] {
+    margin-right: 5px;
+    margin-bottom: 40px;
+
+}
+
+ 
+.position{
+    margin-top: 15px;
+
+}
+
+/* Column layout */
+.sub-container {
+    display: flex;
+    flex-direction: row;
     gap: 20px;
-    color: white ;
+}
+
+.column {
+    flex: 1;
     
 }
-.nav .admin-photo{
-    width: 45px;
-   height: 45px;
-   border-radius: 50%;
-   
-}
- 
- #user_btn,#drug_btn, #view_report_btn, #send_report_btn, #view_customer_btn{
-  cursor: pointer;
 
- }
- .hidden{
-  display: none;
- }
- .block{
-  display: block;
- }
-  
-.dropdown-user {
-  display: none;
-    padding-left: 55px;
-  width: 100%;
-  text-align: center;
-  text-align: center;
-  cursor: pointer;
-  }
-  .dropdown-content li{
-  display: block;
-  padding: 10px;
-  cursor: pointer;
-  width: 100%;
-  text-decoration: underline solid white;
-
-
-  }
-
-/* MAIN */ 
-/* CONTENT */
-
-@media screen and (max-width: 768px) {
-  #sidebar {
-    width: 200px;
-  }
-
-  #content {
-    width: calc(100% - 60px);
-    left: 200px;
-  }
-
-  #content nav .nav-link {
-    display: none;
-  }
-}
-@media screen and (max-width: 576px) {
-  #content nav form .form-input input {
-    display: none;
-  }
-
-  #content nav form .form-input button {
-    width: auto;
-    height: auto;
-    background: transparent;
-    border-radius: none;
-    color: var(--dark);
-  }
-
-#content nav form.show .form-input input {
-    display: block;
-    width: 100%;
-  }
-  #content nav form.show .form-input button {
-    width: 36px;
-    height: 100%;
-    border-radius: 0 36px 36px 0;
-    color: var(--light);
-    background: var(--red);
-  }
-
- 
+/* Error message styling */
+.error-message {
+    color: red;
 }
 
- #add_user{
-    margin-left: 200px;
- }
- #update_user{
-    margin-left: 40px;
- }
-    #form {
-                background-color: #fff;
-                padding: 20px;
-                gap: 20px;
-                border-radius: 5px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-                width: 60%;
-                margin: 30px auto;
-            }
-           
-            #form .sub-container {
-                min-width: 300px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-evenly; 
-            gap: 20px;
-            }
+/* Success message styling */
+.success-message {
+    color: #192a56;
+}
 
-            #row-1{
-                width: 50%;
-            }
-            #row-2 {
-                display: flex;
-                flex-direction: column;
-                width: 50%;
-                gap: 10px;
-             }
-            h1 {
-                text-align: center;
-            }
-            input[type=text], input[type=email], input[type=tel], input[type=password],input[type=password] {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                margin-bottom: 8px;
-            }
-            input[type=submit] {
-                background-color: #3C91E6;
-                color: white;
-                padding: 10px 18px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                margin-left: 50px;
-            }
-            input[type=submit]:hover {
-                background-color: #167be0;
-            }
-            .error {
-                color: red;
-                font-size: 12px;
-                margin-bottom: 5px;
-            }
-            table {
-              margin-left: 300px;
-              border-collapse: collapse;
-              margin-right: 10px;            }
-            th{
-              border: 2px solid #fff;
-
-            }
-            td{
-              border-top: 1px solid #eee;
-            }
-         td{
-          width: 250px;
-          padding: 4px 3px 3px 10px;
-          text-align: left;
-          background: #fff;
-          border: none none 1px solid none !important;
-         }
-         .delete_btn{
-          cursor: pointer;
-          background: #fff;
-          border: none;
-         }
-         .no_of_customers{
-        background: #4CAF50;
-        width: fit-content;
-        padding: 20px;
-        float: right;
-        right: 20px;
-        margin-top: -30px;
-        position: relative;
-         }
-         .no_of_users{
-          color: #4CAF50;
-          width: fit-content;
-          font-size: 16px;
-          margin-left: 300px;
-          }
-          .exit{
-            background-color: red;
-            color: white;
-            padding: 7px 18px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-left: 50px;
-          }
-          .optional{
-            color: var(--yellow);
-          }
-          .mandatory{
-            color: red;
-            font-size: large;
-          }
-           
-  </style>
- </head>
+    </style>
+</head>
 <body>
-   <!-- SIDEBAR -->
-  <section id="sidebar" style="pointer-events: none;" >
-    <a href="/" class="brand">
-     
-      <span class="text">Betselot Pharmacy</span>
-    </a>
-    <ul class="side-menu top">
-          
-           <span class="text" style="margin:0px 0px 100px 60px; color:#3C91E6;font-size: 18px; font-weight: bold;">Dashboard</span>
-       
-       <li id="user_btn"  onclick="toggleDropdownUser()">
-        <a    >
-          <i class='bx bxs-user' ></i>
-          <span class="text" >Manage User</span>
-        </a>
+
+    <section >
+      <!-- header -->
+      <div class="header">
+        {%  include 'header.html' %}
+
+       </div>
+      <div class="main-container">
+
         
-      </li>
-      <div id="userDropdown" class="dropdown-user"> 
-        <li onclick="addnewuser()" id="addnewuser" ><a> add user </a></li>
-        <li onclick="updateuser()"><a>update user </a></li>
-        <li onclick="viewuser()"><a> view user </a></li>
-        <li onclick="deleteuser()"><a> delete user </a></li>
+          <!-- SIDEBAR -->
+          <div id="sidebar">
+            
+              <div class="menu-item active" onclick="showContent('dashboard')">
+                  <i class="fas fa-tachometer-alt" ></i>Dashboard
+              </div>
+              <div class="menu-item dropdown" onclick="toggleDropdown('manageUsers')">
+                  <i class="fas fa-users-cog"></i>Manage Users
+                  <div class="dropdown-content" id="manageUsers">
+                    <div class="dropdown-item" onclick="showContent('addUser')">
+                        <i class="fas fa-user-plus"></i>Add User
+                    </div>
+                    <div class="dropdown-item" onclick="showContent('updateUser')">
+                        <i class="fas fa-user-edit"></i>Update User
+                    </div>
+                    <div class="dropdown-item" onclick="showContent('viewUser')">
+                        <i class="fas fa-user"></i> View User
+                    </div>
+                    <div class="dropdown-item" onclick="showContent('deleteUser')">
+                        <i class="fas fa-user-minus"></i>Delete User
+                    </div>
+                </div>
+                
+              </div>
+              <div class="menu-item" onclick="showContent('viewCustomer')">
+                  <i class="fas fa-users"></i>View Customers
+              </div>
+              <div class="menu-item" onclick="showContent('viewFeedback')">
+                  <i class="fas fa-comments"></i>View Feedback
+              </div>
+              <div class="menu-item">
+                <a href="/logout"></a>  <i class="fas fa-sign-out-alt"></i>Logout</a>
+              </div>
+          </div>
+          <!-- SIDEBAR -->
+
+          <!-- CONTENT -->
+          <div id="content">
+            
+              <div id="dynamic-content">
+                  <!-- Dynamic content will be loaded here -->
+              </div>
+                <div id="myModal" class="modal">
+                  <div class="modal-content" id="modalContent">
+                    <!-- Modal content goes here -->
+                  </div>
+                </div>
+          </div>
       </div>
-       
-       
-      <li id="view_customer_btn" class="view" onclick="viewcustomer()">
-        <a  >
-          <i class='bx bxs-group' ></i>
-          <span class="text">View customer</span>
-        </a>
-      </li>
-      <li id="view_customer_btn" onclick="viewFeedback()">
-        <a  >
-          <i class='bx bxs-group' ></i>
-          <span class="text">View Feedback</span>
-        </a>
-      </li>   
-    </ul>
-    <ul class="side-menu">
-      
-      <li>
-        <a href="logout" class="logout">
-          <i class='bx bxs-log-out-circle' ></i>
-          <span class="text">Logout</span>
-        </a>
-      </li>
-    </ul>
+
   </section>
-  <!-- SIDEBAR -->
 
+    <!-- CONTENT -->
 
+    <script>
+      function showContent(content) {
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => item.classList.remove('active'));
+          document.getElementById('dynamic-content').innerHTML = getContent(content);
+          document.querySelector(`.${content}`).classList.add('active');
+      }
+  
+      function toggleDropdown(id) {
+          const dropdown = document.getElementById(id);
+          dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+      }
+      function addUser() {
+        return `
+    <div id="add_user"> 
+        <form id="form" action="http://127.0.0.1:8000/dashboard" method="post">
+          {% if added %}
 
-  <!-- CONTENT -->
-     <!-- NAVBAR -->
-    <nav class="nav">
-       
-     <h1>👋 Wellcome {{user.username}}</h1>
-     </nav>
-    <!-- NAVBAR -->
-    <!-- MAIN -->
-
-      <div class="block"  id="add_user"  > 
-        <form  id="form" action="addUser" method="post">
-          {% csrf_token %}
-          {% if success %}
           {% for message in messages %}
-            <h3 style="color:green;" >  {{message}} </h3>
-          {% endfor %}
-            {% else %}     
-                {% for message in messages %}
-                    <h3 style="color:red;" >  {{message}} </h3>
-                {% endfor %}
-            {% endif %}
-          <h1>Add New User</h1>
-          <div class="sub-container"> 
-                <div class="row" id="row-1">
+          <h3 style="color:green;" >  {{message}} </h3>
+        {% endfor %}
+          {% else %}     
+              {% for message in messages %}
+                  <h3 style="color:red;" >  {{message}} </h3>
+              {% endfor %}
+          {% endif %}
+            {% csrf_token %}
+            <h1>Add New User</h1>
+            <div class="sub-container"> 
+                <div class="column">
                     <input type="hidden" name="is_superuser" value="False" />
-                    <input type="hidden" name="is_staff" value="False" />
-                    <input type="hidden" name="is_active" value="True" />
-
                     <label for="fname">First Name:</label><br>
-                    <input type="text" id="firstname" name="fname" value="{{fname}}" required><br>
-             
+                    <input type="text" id="firstname" name="fname" required><br>
                     <label for="lname">Last Name:</label><br>
-                    <input type="text" id="lastname" name="lname" value="{{lname}}" required><br>
-             
-                    <label for="email"><span class="mandatory">*</span>Email:</label><br>
-                    <input type="email" id="email" name="email" value="{{email}}" required><br>
-             
+                    <input type="text" id="lastname" name="lname" required><br>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required><br>
                     <label for="phone">Tele:</label><br>
-                    <input type="number" id="phone" name="tele" value="{{tele}}" required><br>
-             
-                    <label for="password"><span class="mandatory">*</span>Password:</label><br>
-                    <input type="password" id="password" name="password"   required><br>
-             
+                    <input type="tel" id="phone" name="tele" required><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br>
                     <label for="confirm_password">Confirm Password:</label><br>
                     <input type="password" id="confirm_password" name="confirm_password" required><br>
-                 </div>
-                <div class="row" id="row-2"> 
-                        <label for="username"><span class="mandatory">*</span>Username:</label>
-                        <input type="text" id="username" name="username" value="{{username}}" required>
- 
-                         
-                        <label for="branch">Branch:</label>
-                         <select id="select" name="branch" style="height:35px" required>
-                          <option value='Head Office' selected>Head Office</option>
-                          <option value='Jemo'>Jemo</option>
-                          <option value='Lebu'>Lebu</option>
-                        </select>
-
-                        <label for="gender">Gender:</label>
-                        <div style="display:flex; flex-direction:row; gap:10px;"> 
-                            Male <input type="radio"   name="gender" value="M" required>
-                            Female<input type="radio"   name="gender" value="F" required>
-                        </div>
-
-                        <label for="salary"><small class="optional">optional</small>&nbsp;Salary:</label>
-                        <input type="number"  style="height:35px" name="salary" value="{{salary}}" >
- 
-                        <label for="position">Position:</label>
-                        <select id="select" name="position" style="height:35px" required>
-                            <option value='Super Admin'>Super Admin</option>
-                            <option value='Druggist'>Druggist</option>
-                             <option value='Pharmacist'>Pharmacist</option>
-                            <option value='Cashier'>Cashier</option>
-                        </select>
-            
                 </div>
+                <div class="column"> 
+                    <label for="username">Username:</label><br>
+                    <input type="tel" id="username" name="username" required><br>
+                    <label for="branch">Branch:</label><br>
+                    <input type="text" name="branch" required><br>
+                    <label for="gender">Gender:</label><br>
+                    <div style="display:flex; flex-direction:row; gap:2px;"> 
+                        Male <input type="radio" name="gender" value="M" required>
+                        Female <input type="radio" name="gender" value="F" required>
+                    </div>
+                    <label for="salary">Salary:</label><br>
+                    <input type="number"   name="salary" required><br>
+                    <label for="position">Position:</label><br>
+                    <select id="select" name="position" style="height:35px" required>
+                        <option value='Super Admin'>Super Admin</option>
+                        <option value='Druggist'>Druggist</option>
+                        <option value='Super Druggist'>Super Druggist</option>
+                        <option value='Pharmacist'>Pharmacist</option>
+                        <option value='Cashier'>Cashier</option>
+                    </select><br>
+                    <div>
+                   <button class='add-user-btn type='submit name='addUser'> Add User </button>
+                    <a href="/dashboard" class="exit">Exit</a>
+                    </div>
+                </div>
+                
             </div>
-            <input type="submit" value="Add User" name="addUser">
-            <a href="dashboard" class="exit">Exit</a>
+             
         </form>
-          
-      </div>
-    
-       
-       
-    <!--MAIN-->
-
-     
-   </section>
-  <!-- CONTENT -->
-  
-
-  <script>
-const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
-const addUser=document.getElementById('add_user')
-const updateUser=document.getElementById('update_user')
-const deleteUser=document.getElementById('delete_user')
-
-const viewUser=document.getElementById('view_user')
-const view_customer=document.getElementById('view_customer')
-const view_feedback=document.getElementById('view_feedback')
-const update_btn=document.getElementById('update_btn')
-const fm=document.getElementById(' fm')
-
-update_btn.addEventListener('click', (e)=>{
-e.preventDefault();
- if(updateUser.classList.contains('hidden')){
-  updateUser.classList.remove('hidden')
-  updateUser.classList.add('block')
-  addUser.classList.add('hidden')
-  view_customer.classList.add('hidden')
-  viewUser.classList.add('hidden')
-
+    </div>`;
 }
-})
 
- 
- 
-// side btns
+      function userUpdate() {
+    return `
+    <div   id="update_user"  > 
+             <h1>Update User</h1>
+            <table>
+              <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Branch</th>
+                  <th>Position</th>
+                  <th>Salary</th>
+                  <th>Gender</th>
+                  <th>Tele</th>
+                  <th>Action</th>
   
-allSideMenu.forEach(item=> {
-  const li = item.parentElement;
-
- item.addEventListener('click', ()=> {
-    allSideMenu.forEach(i=> {
-      i.parentElement.classList.remove('active');
-    })
-    li.classList.add('active');
-  })
-});
   
-function toggleDropdownUser() {
-  let dropdown = document.getElementById("userDropdown");
-  if (dropdown.style.display === "none") {
-    dropdown.style.display = "block";
-  } else {
-    dropdown.style.display = "none";
-  }
-  }
-  
-function toggleDropdownDrug() {
-  let dropdown = document.getElementById("drugDropdown");
-  if (dropdown.style.display === "none") {
-    dropdown.style.display = "block";
-  } else {
-    dropdown.style.display = "none";
-  }
-  }
-  
-  function addnewuser(){
-  if (addUser.classList.contains("hidden")) {
-    addUser.classList.remove("hidden");
-     updateUser.classList.add("hidden");
-     deleteUser.classList.add("hidden");
-    viewUser.classList.add("hidden");
-        view_feedback.classList.add("hidden");
-    view_customer.classList.add("hidden");
- 
+              </tr>
+              {% for view in users %}
+                  {% if view.profile.position != "Customer" %}
 
-  } 
-  }
-  function updateuser(){
-  if (updateUser.classList.contains("hidden")) {
-    updateUser.classList.remove("hidden");
-    addUser.classList.add("hidden");
-    deleteUser.classList.add("hidden");
-    viewUser.classList.add("hidden");
-    view_feedback.classList.add("hidden");
-    view_customer.classList.add("hidden");
- 
+                      <tr>
+                           {% csrf_token %}
+                            <td>{{view.username}}</td>
+                            <td>{{view.email}}</td>
+                            <td>{{view.profile.branch}}</td>
+                            <td>{{view.profile.position}}</td>
+                            <td>{{view.profile.salary}}</td>
+                            <td>{{view.profile.gender}}</td>
+                            <td>{{view.profile.tele}}</td>
+                            <td> <a href="{% url 'search_user' view.pk %}">
+                                <button onclick="showUserDetails('{{ view.username }}', '{{ view.email }}', '{{ view.profile.branch }}', '{{ view.profile.position }}', '{{ view.profile.salary }}', '{{ view.profile.gender }}', '{{ view.profile.tele }}')" style="border: none; background-color: transparent; text-align:center; color:rgb(7, 155, 20)">Update</button>
+                            </a> </td>
+                       </tr>
+                    {% endif %}
+              {% endfor %}
+           </table>
+                 
+      </div>
+    `
+}
 
-  } 
-  }
 
-  function deleteuser(){
-    if (deleteUser.classList.contains("hidden")) {
-      deleteUser.classList.remove("hidden");
-      updateUser.classList.add("hidden");
-      addUser.classList.add("hidden");
-      viewUser.classList.add("hidden");
-      view_feedback.classList.add("hidden");
-      view_customer.classList.add("hidden");
-   
-  
-    } 
-    }
-  function viewuser(){
-  if (viewUser.classList.contains("hidden")) {
-    viewUser.classList.remove("hidden");
-    addUser.classList.add("hidden");
-    updateUser.classList.add("hidden");
-    view_feedback.classList.add("hidden");
-    deleteUser.classList.add("hidden");
-    view_customer.classList.add("hidden");
- 
-
-  } 
-  }
-  function viewcustomer(){
-  if (view_customer.classList.contains("hidden")) {
-    view_customer.classList.remove("hidden");
-    addUser.classList.add("hidden");
-    updateUser.classList.add("hidden");
-    deleteUser.classList.add("hidden");
-    viewUser.classList.add("hidden");
-    view_feedback.classList.add("hidden");
- 
-
-  } 
-  }
-  function viewFeedback(){
-  if (view_feedback.classList.contains("hidden")) {
-    view_feedback.classList.remove("hidden");
-    addUser.classList.add("hidden");
-    updateUser.classList.add("hidden");
-    viewUser.classList.add("hidden"); 
-    deleteUser.classList.add("hidden");
-    view_customer.classList.add("hidden");
-        
-
-  } 
-  }
+      function viewUser(){
+        return `
+        <div id="view_user"  > 
+         <h1> <span class="no_of_users"> NUMBER OF User/EMPLOYEE:  {{no_of_users}} </span></h1>
+         <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Branch</th>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Gender</th>
+                <th>Tele</th>
+                <th style="font-size: small;">Date_Joined</th>
 
  
+
+            </tr>
+            {% for view in users %}
+            {% if view.profile.position != "Customer" %}
+
+                <tr>
+                  <form method="post" action="dashboard" >
+                    {% csrf_token %}
+                      <td>{{view.username}}</td>
+                      <td>{{view.email}}</td>
+                      <td>{{view.profile.branch}}</td>
+                      <td>{{view.profile.position}}</td>
+                      <td>{{view.profile.salary}}</td>
+                      <td>{{view.profile.gender}}</td>
+                      <td>{{view.profile.tele}}</td>
+                      <td style="font-size: 10px;">{{view.date_joined}}</td>
+
+                      
+                  </form>
+                </tr>
+                {% endif %}
+            {% endfor %}
+         </table>
+      </div>
+        `
+      }
        
- 
+      function deleteUser(){
+        return `
+        <div id="delete_user"  > 
+        <h1>Delete user </h1>
+        <table>
+           <tr>
+               <th>Username</th>
+               <th>Email</th>
+               <th>Branch</th>
+               <th>Position</th>
+               <th>Salary</th>
+               <th>Gender</th>
+               <th>Tele</th>
+               <th>Action</th>
+
+           </tr>
+           {% for view in users %}
+           {% if view.profile.position != "Customer" %}
+
+               <tr>
+                 <form method="post" action="dashboard" >
+                   {% csrf_token %}
+                   <input type="hidden" name="select_user" value="{{view.pk}}"> 
+                      <td>{{view.username}}</td>
+                     <td>{{view.email}}</td>
+                     <td>{{view.profile.branch}}</td>
+                     <td>{{view.profile.position}}</td>
+                     <td>{{view.profile.salary}}</td>
+                     <td>{{view.profile.gender}}</td>
+                     <td>{{view.profile.tele}}</td>
+                     <td> 
+                      <button name="userDelete" style="cursor:pointer; border:none; background-color: transparent; text-align:center; color:rgb(202, 4, 4)"
+                      onclick="return confirm('Are you sure do you want to delete {{view.username}}?');">
+                       Delete  
+                    </button>
+                     </td>
+                 </form>
+               </tr>
+               {% endif %}
+           {% endfor %}
+        </table>
+     
+        `
+    }
+      function viewCustomer(){
+        return `
+        <div id="view_customer"> 
+       
+       <h1>view customer,  {{no_of_customers}} customers</h1>
+       <table>
+         <tr>
+             <th>Username</th>
+             <th>Email</th>
+             <th>Tele</th>
+
+
+         </tr>
+         {% for view in users %}
+         {% if view.profile.position == "Customer" %}
+
+             <tr>
+       
+                   <td>{{view.username}}</td>
+                   <td>{{view.email}}</td>
+                   <td>{{view.profile.tele}}</td>
+                   
+              </tr>
+             {% endif %}
+         {% endfor %}
+      </table>
+   
+      </div>
+        `
+      }
+      
+
+      function getContent(content) {
+          switch (content) {
+              case 'dashboard':
+              return `
+        <div id="add_user"> 
+        <form id="form" action="http://127.0.0.1:8000/dashboard" method="post">
+          {% if added %}
+
+          {% for message in messages %}
+          <h3 style="color:green;" >  {{message}} </h3>
+        {% endfor %}
+          {% else %}     
+              {% for message in messages %}
+                  <h3 style="color:red;" >  {{message}} </h3>
+              {% endfor %}
+          {% endif %}
+            {% csrf_token %}
+            <h1>Add New User</h1>
+            <div class="sub-container"> 
+                <div class="column">
+                    <input type="hidden" name="is_superuser" value="False" />
+                    <label for="fname">First Name:</label><br>
+                    <input type="text" id="firstname" name="fname" required><br>
+                    <label for="lname">Last Name:</label><br>
+                    <input type="text" id="lastname" name="lname" required><br>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required><br>
+                    <label for="phone">Tele:</label><br>
+                    <input type="tel" id="phone" name="tele" required><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br>
+                    <label for="confirm_password">Confirm Password:</label><br>
+                    <input type="password" id="confirm_password" name="confirm_password" required><br>
+                </div>
+                <div class="column"> 
+                    <label for="username">Username:</label><br>
+                    <input type="tel" id="username" name="username" required><br>
+                    <label for="branch">Branch:</label><br>
+                    <input type="text" name="branch" required><br>
+                    <label for="gender">Gender:</label><br>
+                    <div style="display:flex; flex-direction:row; gap:2px;"> 
+                        Male <input type="radio" name="gender" value="M" required>
+                        Female <input type="radio" name="gender" value="F" required>
+                    </div>
+                    <label for="salary">Salary:</label><br>
+                    <input type="number"   name="salary" required><br>
+                    <label for="position">Position:</label><br>
+                    <select id="select" name="position" style="height:35px" required>
+                        <option value='Super Admin'>Super Admin</option>
+                        <option value='Druggist'>Druggist</option>
+                        <option value='Super Druggist'>Super Druggist</option>
+                        <option value='Pharmacist'>Pharmacist</option>
+                        <option value='Cashier'>Cashier</option>
+                    </select><br>
+                    <div>
+                   <button class='add-user-btn type='submit name='addUser'> Add User </button>
+                    <a href="/dashboard" class="exit">Exit</a>
+                </div>
+                </div>
+                
+            </div>
+         </form>
+    </div>`;
+case 'addUser':
+                  return addUser();
+              case 'updateUser':
+                  return `
+                       ${userUpdate()}
+                   `;
+              case 'viewUser':
+                  return  viewUser();
+              case 'deleteUser':
+                  return deleteUser();
+              case 'viewCustomer':
+                  return viewCustomer();
+              case 'viewFeedback':
+                  return `
+                  <div class=""  id="view_feedback"> 
+                    <h1>view Feedback</h1>
+                  
+                    <table>
+                      <tr>
+                          <th>Sender</th>
+                          <th>Feedback</th>
+                          <th>Date</th>
+                  
+                  
+                      </tr>
+                      {% for feedback in feedback %}
+                  
+                          <tr>
+                                <td>{{feedback.sender}}</td>
+                                <td>{{feedback.message}}</td>
+                                <td>{{feedback.date}}</td>
+                                
+                           </tr>
+                       {% endfor %}
+                   </table>
+                   </div>
+                  `;
+              default:
+                  return `
+                  <h1>Welcome to the Dashboard</h1>
+                      <p> This is your dashboard, Navigate to the side panel list .</p>  `;
+          }
+      }
+      
+      window.addEventListener('load', function() {
+    showContent('dashboard');
+  });
   </script>
+  
 </body>
 </html>
