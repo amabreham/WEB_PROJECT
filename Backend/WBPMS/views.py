@@ -1469,11 +1469,6 @@ def clear_msg(request):
     else:
         return redirect('login')
     
-
-
-
-
-
 #####SENDING SMS MESSAGES #####
 # import datetime
 # from twilio.rest import Client
